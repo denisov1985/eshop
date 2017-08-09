@@ -1,4 +1,4 @@
-import App from './containers/App'
+import AppContainer from './containers/App'
 
 import ReactOnRails from 'react-on-rails';
-ReactOnRails.register({ App });
+ReactOnRails.register({ AppContainer });
