@@ -1,4 +1,5 @@
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -16,6 +17,13 @@ module.exports = {
         },
         extensions: ['.js', '.jsx']
     },
+
+    plugins: [
+        new CopyWebpackPlugin([
+            // {output}/to/file.txt
+            {from: 'app/Resources/webpack/server-bundle.js', to: '../../../web/build/eshop.bundle.js'}
+        ])],
+
     module: {
         rules: [
             {
