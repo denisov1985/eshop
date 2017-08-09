@@ -5,8 +5,8 @@ module.exports = {
         eshop: './client/eshop/index.js'
     },
     output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(__dirname + '/web', 'build'),
+        filename: 'server-bundle.js',
+        path: path.resolve(__dirname + '/app/Resources', 'webpack'),
         publicPath: "http://eshop.com/build/"
     },
     resolve: {

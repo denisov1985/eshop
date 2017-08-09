@@ -1,2 +1,4 @@
-import '../resources/css/main.css';
+import App from './containers/App'
 
+import ReactOnRails from 'react-on-rails';
+ReactOnRails.register({ App });
