@@ -1,0 +1,29 @@
+ApiBundle\Entity\City:
+    type: entity
+    table: null
+    repositoryClass: ApiBundle\Repository\CityRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        lat:
+            type: string
+            length: 255
+        lon:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }
+    manyToOne:
+        region:
+            targetEntity: Region
+            fetch: EXTRA_LAZY
+            inversedBy: cities
+            joinColumn:
+                name: region_id
+                referencedColumnName: id

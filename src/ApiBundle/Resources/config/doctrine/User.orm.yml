@@ -1,0 +1,36 @@
+ApiBundle\Entity\User:
+    type: entity
+    table: null
+    repositoryClass: ApiBundle\Repository\UserRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        first_name:
+            type: string
+            length: 255
+            nullable: true
+        last_name:
+            type: string
+            length: 255
+        email:
+            type: string
+            length: 255
+        password:
+            type: string
+            length: 255
+        gender:
+            type: smallint
+        isActive:
+            type: boolean
+            column: is_active
+    lifecycleCallbacks: {  }
+    oneToOne:
+        address:
+            targetEntity: Address
+            joinColumn:
+              name: address_id
+              referencedColumnName: id

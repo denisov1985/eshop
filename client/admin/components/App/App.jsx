@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from 'components/Layout';
 import Grid from './Grid/Grid';
-import Filter from './Filter/index';
+import Filter from './Filter/Filter';
 
 const App = ({onToggleFilter, filterExpanded}) => {
 

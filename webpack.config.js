@@ -3,10 +3,11 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: {
-        eshop: './client/eshop/index.js'
+        eshop: './client/eshop/index.js',
+        admin: './client/admin/index.js',
     },
     output: {
-        filename: 'server-bundle.js',
+        filename: '[name].server-bundle.js',
         path: path.resolve(__dirname + '/app/Resources', 'webpack'),
         publicPath: "http://eshop.com/build/"
     },
@@ -21,7 +22,8 @@ module.exports = {
     plugins: [
         new CopyWebpackPlugin([
             // {output}/to/file.txt
-            {from: 'app/Resources/webpack/server-bundle.js', to: '../../../web/build/eshop.bundle.js'}
+            {from: 'app/Resources/webpack/eshop.server-bundle.js', to: '../../../web/build/eshop.bundle.js'},
+            {from: 'app/Resources/webpack/admin.server-bundle.js', to: '../../../web/build/admin.bundle.js'},
         ])],
 
     module: {

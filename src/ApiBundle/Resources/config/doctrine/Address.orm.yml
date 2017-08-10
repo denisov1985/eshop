@@ -1,0 +1,30 @@
+ApiBundle\Entity\Address:
+    type: entity
+    table: null
+    repositoryClass: ApiBundle\Repository\AddressRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        street1:
+            type: string
+            length: 255
+        street2:
+            type: string
+            length: 255
+        zip:
+            type: string
+            length: 255
+        phone:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }
+    manyToOne:
+        city:
+            targetEntity: City
+            joinColumn:
+                name: city_id
+                referencedColumnName: id
