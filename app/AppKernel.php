@@ -53,11 +53,7 @@ class AppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        if (substr_count($_SERVER['REQUEST_URI'], 'admin') > 0) {
-            $loader->load($this->getRootDir().'/config/config_admin.yml');
-        }   else  {
-            $loader->load($this->getRootDir().'/config/config_shop.yml');
-        }
+        $loader->load($this->getRootDir().'/config/config_'.$this->getEnvironment().'.yml');
 
     }
 }
