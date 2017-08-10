@@ -10,7 +10,12 @@ umask(0000);
 require __DIR__.'/../vendor/autoload.php';
 Debug::enable();
 
-$kernel = new AppKernel('dev', true);
+if (substr_count($_SERVER['REQUEST_URI'], 'admin') > 0) {
+    $kernel = new AppKernel('dev_admin', true);
+}   else {
+    $kernel = new AppKernel('dev', true);
+}
+
 if (PHP_VERSION_ID < 70000) {
     $kernel->loadClassCache();
 }
