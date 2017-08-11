@@ -21,7 +21,7 @@ class AppKernel extends Kernel
             new AdminBundle\AdminBundle(),
         ];
 
-        if (!in_array($this->getEnvironment(), ['prod'], true)) {
+        if (!in_array($this->getEnvironment(), ['prod', 'prod_admin'], true)) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();

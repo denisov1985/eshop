@@ -22,8 +22,8 @@ module.exports = {
     plugins: [
         new CopyWebpackPlugin([
             // {output}/to/file.txt
-            {from: 'app/Resources/webpack/eshop.server-bundle.js', to: '../../../web/build/eshop.bundle.js'},
-            {from: 'app/Resources/webpack/admin.server-bundle.js', to: '../../../web/build/admin.bundle.js'},
+            {from: 'app/Resources/webpack/eshop.server-bundle.js', to: '../../../web/build/bundle.js'},
+            {from: 'app/Resources/webpack/admin.server-bundle.js', to: '../../../admin/build/bundle.js'},
         ])],
 
     module: {
