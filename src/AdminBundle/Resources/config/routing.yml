@@ -1,3 +1,9 @@
-admin_homepage:
+admin_homepage_default:
     path:     /
     defaults: { _controller: AdminBundle:Default:index }
+
+admin_homepage:
+    path:     /{path}
+    defaults: { _controller: AdminBundle:Default:index }
+    requirements:
+        path: "^(?!img|api|build|test).+"

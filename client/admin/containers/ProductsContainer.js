@@ -1,13 +1,13 @@
 import React, {Component} from 'react'
 import {Map} from 'immutable';
-import Dashboard from '../components/Dashboard/Dashboard';
-export default class DashboardContainer extends Component {
+import Products from '../components/Products/Products';
+export default class ProductsContainer extends Component {
 
     /**
      * Render menu
      * @returns {XML}
      */
     render() {
-        return (<Dashboard/>);
+        return (<Products/>);
     }
 }

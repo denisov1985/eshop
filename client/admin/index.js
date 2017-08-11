@@ -1,4 +1,3 @@
-import DashboardContainer from './containers/DashboardContainer'
-
+import RootContainer from './containers/RootContainer'
 import ReactOnRails from 'react-on-rails';
-ReactOnRails.register({ DashboardContainer });
+ReactOnRails.register({ RootContainer });
