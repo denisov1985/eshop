@@ -9,9 +9,7 @@ class DashboardContainer extends Component {
      * @returns {XML}
      */
     render() {
-        return (<Dashboard>
-            <button className="ui button blue test" type="button" onClick={() => {console.log(this)}}>Some tet</button>
-        </Dashboard>);
+        return (<Dashboard />);
     }
 }
 

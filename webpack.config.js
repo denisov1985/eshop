@@ -12,6 +12,7 @@ module.exports = {
     },
     resolve: {
         alias: {
+            shared: path.resolve(__dirname, 'client/shared/'),
             components: path.resolve(__dirname, 'client/eshop/components/'),
             actions: path.resolve(__dirname, 'client/eshop/actions/')
         },
