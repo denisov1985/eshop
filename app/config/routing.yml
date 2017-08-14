@@ -3,17 +3,12 @@ admin:
     resource: "@AdminBundle/Resources/config/routing.yml"
     host: admin.eshop.com
 
-api:
-    resource: "@ApiBundle/Resources/config/routing.yml"
-    prefix:   /api
-    host: admin.eshop.com
-
-api_shop:
-    resource: "@ApiBundle/Resources/config/routing.yml "
-    prefix:   /api
-    host: eshop.com
 
 shop:
     resource: "@ShopBundle/Resources/config/routing.yml"
     host: eshop.com
     prefix:   /
+
+api_bundle:
+    resource: "@ApiBundle/Resources/config/routing.yml"
+    prefix:   /api
