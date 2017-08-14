@@ -10,8 +10,6 @@ export default class Dashboard extends Component {
         return (<Layout
             title="Dashboard"
             description="Your store dashboard page"
-        >
-            Dashboard. In development
-        </Layout>);
+        >Dashboard. In development{this.props.children}</Layout>);
     }
 }

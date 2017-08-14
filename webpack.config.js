@@ -1,6 +1,5 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
 module.exports = {
     entry: {
         eshop: './client/eshop/index.js',
@@ -27,6 +26,7 @@ module.exports = {
         ])],
 
     module: {
+
         rules: [
             {
                 test: /\.css$/,

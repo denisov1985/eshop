@@ -1,40 +1,37 @@
-import React from 'react'
-
 import DashboardContainer from './DashboardContainer'
 import ProductsContainer from './ProductsContainer'
 
-import {
-    BrowserRouter,
-    StaticRouter,
-    Route
-} from 'react-router-dom'
+import React from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter, StaticRouter, Route } from 'react-router-dom';
+import ReactOnRails from 'react-on-rails';
 
-export default (initialProps, context) => {
+const RootContainer = (_initialProps, context) => {
+    const store = ReactOnRails.getStore('store');
+    const { location, base, serverSide } = context;
+
     let Router;
-
-    // We render a different router depending on whether we are rendering server side
-    // or client side.
-    if (context.serverSide) {
+    if (serverSide) {
         Router = (props) => (
-            <StaticRouter basename={context.base} location={context.location} context={{}} >
+            <StaticRouter basename={base} location={location} context={{}} >
                 {props.children}
             </StaticRouter>
         )
     } else {
         Router = (props) => (
-            <BrowserRouter basename={context.base}>
+            <BrowserRouter basename={base + '/'}>
                 {props.children}
             </BrowserRouter>
         )
     }
-    return (
+    return (<Provider store={store}>
         <Router>
             <div>
-                <Route path={'/product'} render={(props) => <ProductsContainer {...initialProps} base={context.base} {...props} />}/>
-                <Route path={'/'} exact render={(props) => {
-                    return ( <DashboardContainer {...initialProps} base={context.base} {...props} />)
-                }}></Route>
+                <Route path={'/'} exact component={DashboardContainer}/>
+                <Route path={'/product'} component={ProductsContainer}/>
             </div>
         </Router>
-    )
+    </Provider>)
 }
+
+export default RootContainer

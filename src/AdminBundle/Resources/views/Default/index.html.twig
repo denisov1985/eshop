@@ -10,7 +10,10 @@
     <title>Admin Bundle</title>
 </head>
 <body>
-<div id="root">{{ react_component('RootContainer', {'props': {}}) }}</div>
+<section role="main" class="react-container"><div>
+    {{ redux_store('store', {}) }}
+    {{ react_component('RootContainer') }}
+    </div></section>
 <script type="text/javascript" src="/build/bundle.js"></script>
 </body>
 </html>
