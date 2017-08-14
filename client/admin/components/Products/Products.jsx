@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import Layout from '../Layout/Layout';
-import DataTable from 'shared/DataTable/DataTable';
+import DataTable from 'shared/components/DataTable/DataTable';
 import { Button, Divider, Grid } from 'semantic-ui-react'
-
 
 export default class Products extends Component {
 
@@ -18,7 +17,7 @@ export default class Products extends Component {
             <Grid columns={1} divided>
                 <Grid.Row>
                     <Grid.Column>
-                        <Button>Find products</Button>
+                        <Button onClick={this.props.onFindProducts}>Find products</Button>
                     </Grid.Column>
                 </Grid.Row>
 

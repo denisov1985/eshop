@@ -1,13 +1,35 @@
 import React, {Component} from 'react'
 import {Map} from 'immutable';
+import {bindActionCreators} from 'redux'
+import { connect } from 'react-redux'
 import Products from '../components/Products/Products';
-export default class ProductsContainer extends Component {
+import Container from 'shared/containers/Container';
+import CollectionAction from 'shared/actions/CollectionAction';
+
+class ProductsContainer extends Container {
+
+    /**
+     * Find all products
+     */
+    findProducts = () => {
+        this.props.actions.products.findAll();
+    };
 
     /**
      * Render menu
      * @returns {XML}
      */
     render() {
-        return (<Products/>);
+        return (<Products onFindProducts={this.findProducts} />);
     }
+    static mapStateToProps = (state, ownProps) => ({
+        products: state.products,
+    })
+
+    static mapDispatchToProps = (dispatch) => ({
+        products: bindActionCreators(new CollectionAction('products').create(), dispatch)
+    })
+
 }
+
+export default ProductsContainer.connect();

@@ -6,6 +6,11 @@ admin:
 api:
     resource: "@ApiBundle/Resources/config/routing.yml"
     prefix:   /api
+    host: admin.eshop.com
+
+api_shop:
+    resource: "@ApiBundle/Resources/config/routing.yml "
+    prefix:   /api
     host: eshop.com
 
 shop:

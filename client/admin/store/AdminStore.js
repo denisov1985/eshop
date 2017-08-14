@@ -4,9 +4,8 @@ import { createStore, applyMiddleware, compose } from 'redux'
 // https://github.com/gaearon/redux-thunk and http://redux.js.org/docs/advanced/AsyncActions.html
 import thunkMiddleware from 'redux-thunk'
 
-import reducers from '../reducers'
+import reducers from '../reducers/Root'
 import { initialStates } from '../reducers'
-
 
 export default function configureStore(props, context) {
 
@@ -26,10 +25,9 @@ export default function configureStore(props, context) {
 
     const store = createStore(
         reducers,
-        initialState,
-        composeEnhancers(
-            applyMiddleware(thunkMiddleware)
+        applyMiddleware(
+            thunkMiddleware
         )
-    )
+    );
     return store
 }
