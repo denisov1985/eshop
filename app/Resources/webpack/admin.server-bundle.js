@@ -51333,13 +51333,8 @@ var RootContainer = function RootContainer(_initialProps, context) {
                 _react2.default.createElement(_reactRouterDom.Route, { path: '/', exact: true, component: _DashboardContainer2.default }),
                 _react2.default.createElement(
                     _reactRouterDom.Route,
-                    { path: '/product' },
-                    _react2.default.createElement(
-                        'div',
-                        null,
-                        _react2.default.createElement(_reactRouterDom.IndexRoute, { component: _ProductsContainer2.default }),
-                        _react2.default.createElement(_reactRouterDom.Route, { path: 'view/:id', component: _InDevelopmentContainer2.default })
-                    )
+                    { path: '/product', component: _ProductsContainer2.default },
+                    _react2.default.createElement(_reactRouterDom.Route, { path: 'view/:id', component: _InDevelopmentContainer2.default })
                 )
             )
         )

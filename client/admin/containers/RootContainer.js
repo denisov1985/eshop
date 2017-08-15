@@ -29,11 +29,8 @@ const RootContainer = (_initialProps, context) => {
         <Router>
             <div>
                 <Route path={'/'} exact component={DashboardContainer}/>
-                <Route path="/product">
-                    <div>
-                        <IndexRoute component={ProductsContainer} />
+                <Route path="/product" component={ProductsContainer}>
                         <Route path={'view/:id'} component={InDevelopmentContainer}/>
-                    </div>
                 </Route>
             </div>
         </Router>
