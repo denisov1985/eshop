@@ -36,6 +36,16 @@ class ActionResolver
     }
 
     /**
+     * @return mixed
+     */
+    public function getDoctrine()
+    {
+        return $this->doctrine;
+    }
+
+
+
+    /**
      * Resolve action
      */
     public function resolve()

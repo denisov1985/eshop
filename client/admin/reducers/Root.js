@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux'
 import CollectionReducer from 'shared/reducers/CollectionReducer';
 
-CollectionReducer.factory('products');
-
 const rootReducer = combineReducers({
-    products: CollectionReducer.factory('products')
+    products: CollectionReducer.factory('product')
 });
 
 export default rootReducer;

@@ -32,14 +32,14 @@ class CollectionReducer extends Reducer
                 /**
                  * Request login
                  */
-                case this.formatRequestAction('find'):
+                case this.formatRequestAction('collect'):
                     return state.set('status', this.statusLoading());
                     break;
 
                 /**
                  * Receive login
                  */
-                case this.formatReceiveAction('find'):
+                case this.formatReceiveAction('collect'):
                     return state.set('dataset', payload.get('data'))
                         .set('status', this.statusComplete());
                     break;

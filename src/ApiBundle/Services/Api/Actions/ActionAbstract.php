@@ -10,6 +10,9 @@ namespace ApiBundle\Services\Api\Actions;
 
 
 use ApiBundle\Services\Api\ActionResolver;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityRepository;
 
 class ActionAbstract
 {
@@ -20,18 +23,40 @@ class ActionAbstract
         $this->resolver = $resolver;
     }
 
-    protected function process() {}
+    /**
+     * Process request
+     * @return array
+     */
+    protected function process() : array {}
 
-    public function handle()
+    /**
+     * Handle api action request
+     * @return array
+     */
+    public function handle() : array
     {
-        $d = $this->getEntityManager();
-        var_dump($d);
-        die();
         return $this->process();
     }
 
-    protected function getEntityManager() {
-        return $this->resolver->getContainer()->getDoctrine()->getManager();
+    /**
+     * Get entity manager
+     * @return mixed
+     */
+    protected function getEntityManager() : ObjectManager {
+        return $this->resolver->getDoctrine()->getManager();
+    }
+
+    /**
+     * Get repository
+     * @param null $entity
+     * @return ObjectRepository
+     */
+    protected function getRepository($entity = null) : ObjectRepository {
+        if (is_null($entity)) {
+            $entity = $this->resolver->getEntityName();
+        }
+        $entity = ucfirst($entity);
+        return $this->resolver->getDoctrine()->getRepository('ApiBundle\Entity\\' . $entity);
     }
 
 }

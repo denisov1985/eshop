@@ -10,5 +10,12 @@ namespace ApiBundle\Services\Api\Actions;
  */
 class Collect extends ActionAbstract
 {
-
+    /**
+     * Override
+     * @return array
+     */
+    protected function process(): array
+    {
+        return $this->getRepository()->findAll();
+    }
 }

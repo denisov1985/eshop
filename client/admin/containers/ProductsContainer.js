@@ -27,7 +27,7 @@ class ProductsContainer extends Container {
     })
 
     static mapDispatchToProps = (dispatch) => ({
-        products: bindActionCreators(new CollectionAction('products').create(), dispatch)
+        products: bindActionCreators(new CollectionAction('product').create(), dispatch)
     })
 
 }
