@@ -72,7 +72,7 @@ export default class DataTable extends CoreComponent {
     render() {
         return (
             <Dimmer loading={this.isLoading()} visible={this.isLoading()}>
-                <table className={this.getClass()}>
+                <table style={{height: 100 + 'px'}} className={this.getClass()}>
                     <DataTableHeader parent={this}/>
                     <DataTableBody parent={this}/>
                     {this.getDataset().size > 0 ? (<DataTableFooter parent={this}/>) : null}

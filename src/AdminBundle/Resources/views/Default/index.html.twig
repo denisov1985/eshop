@@ -11,7 +11,9 @@
 </head>
 <body>
 <section role="main" class="react-container"><div>
-    {{ redux_store('store', {}) }}
+    {{ redux_store('store', {
+        hydrated_data: data
+    }) }}
     {{ react_component('RootContainer') }}
     </div></section>
 <script type="text/javascript" src="/build/bundle.js"></script>

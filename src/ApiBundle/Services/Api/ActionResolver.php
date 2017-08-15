@@ -1,6 +1,7 @@
 <?php
 
 namespace ApiBundle\Services\Api;
+use ApiBundle\Services\Api\Actions\ActionAbstract;
 use \Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
@@ -26,13 +27,30 @@ class ActionResolver
      */
     public function __construct($path, $request, $doctrine)
     {
-        $this->path      = $path;
-        $this->request   = $request;
-        $this->doctrine = $doctrine;
+        $this->path       = $path;
+        $this->request    = $request;
+        $this->doctrine   = $doctrine;
+        $this->entityName = $this->parseEntityName();
+        $this->actionName = $this->parseActionName();
 
-        $parts = explode('/', $path);
-        $this->entityName = $parts[0];
-        $this->actionName = $parts[1];
+    }
+
+    /**
+     * Get entity name
+     * @return string
+     */
+    protected function parseEntityName() {
+        $parts = explode('/', $this->path);
+        return $parts[0];
+    }
+
+    /**
+     * Get action name
+     * @return string
+     */
+    protected function parseActionName() {
+        $parts = explode('/', $this->path);
+        return $parts[1];
     }
 
     /**
@@ -43,14 +61,13 @@ class ActionResolver
         return $this->doctrine;
     }
 
-
-
     /**
      * Resolve action
      */
     public function resolve()
     {
         $className = 'ApiBundle\Services\Api\Actions\\' . ucfirst($this->actionName);
+        /** @var ActionAbstract $action */
         $action    = new $className($this);
         return $action->handle();
     }

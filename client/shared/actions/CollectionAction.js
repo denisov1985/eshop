@@ -4,7 +4,7 @@ class CollectionAction extends Action
 {
     create() {
         return {
-            findAll: (params) => this.getApi().sendGet('collect', {}),
+            collect: (params) => this.getApi().sendGet('collect', {}),
             unset: () => this.createReceiveAction('unset'),
         }
     }

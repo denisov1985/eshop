@@ -12,7 +12,7 @@ class ProductsContainer extends Container {
      * Find all products
      */
     findProducts = () => {
-        this.props.actions.products.findAll();
+        this.props.actions.product.collect();
     };
 
     /**
@@ -20,14 +20,22 @@ class ProductsContainer extends Container {
      * @returns {XML}
      */
     render() {
-        return (<Products onFindProducts={this.findProducts} />);
+        console.log(this);
+        return (<Products
+            container={this}
+            onFindProducts={this.findProducts}
+        />);
     }
-    static mapStateToProps = (state, ownProps) => ({
-        products: state.products,
-    })
+    static mapStateToProps = (state, ownProps) => {
+        console.log('TEST');
+        console.log(state);
+        return {
+            product: state.product
+        }
+    }
 
     static mapDispatchToProps = (dispatch) => ({
-        products: bindActionCreators(new CollectionAction('product').create(), dispatch)
+        product: bindActionCreators(new CollectionAction('product').create(), dispatch)
     })
 
 }

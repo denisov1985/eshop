@@ -4,7 +4,7 @@ import CoreComponent from '../../Core/CoreComponent';
 export default class DataTableColumnData extends CoreComponent {
     render() {
         return (<td>
-            {this.props.record.getIn(['attributes', this.props.field])}
+            {this.props.record.getIn([this.props.field])}
         </td>);
     }
 }

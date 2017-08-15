@@ -32,30 +32,21 @@ class ApiRequest
     /**
      * Create endpoint URL helper
      */
-    getEndpoint = (action, payload, attributes) => {
-        const query = (payload && payload.query) ? payload.query : {};
-        const parts = Object.values(query);
-        let params = parts.join('/');
-        if (params) {
-            params = '/' + params;
+    getEndpoint = (action, query) => {
+        if (typeof query === 'undefined') {
+            query = {};
         }
-        let attrs = JSON.stringify(attributes)
-        if (attrs !== '' && typeof attrs !== 'undefined') {
-            attrs = '?params=' + attrs;
-        }   else  {
-            attrs = '';
-        }
-
-        return ApiRequest.ENDPOINT_URL + this.entity.replace('_', '/').toLowerCase() + '/' + action.toLowerCase() + params + attrs;
+        let queryJSON = JSON.stringify(query);
+        return ApiRequest.ENDPOINT_URL + this.entity.replace('_', '/').toLowerCase() + '/' + action.toLowerCase() + '?params=' + queryJSON;
     };
 
     /**
      * Get request action
      */
-    sendGet(action, payload, attributes) {
-        return (dispatch, getState) => {
-            dispatch(this.actionProvider.createRequestAction(action, payload));
-            return fetch(this.getEndpoint(action, payload, attributes), {
+    sendGet(action, query) {
+        return (dispatch) => {
+            dispatch(this.actionProvider.createRequestAction(action, query));
+            return fetch(this.getEndpoint(action, query), {
                 method: 'get',
                 headers: this.getHeaders()
             })

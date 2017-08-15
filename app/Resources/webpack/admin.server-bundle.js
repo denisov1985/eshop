@@ -50709,7 +50709,7 @@ var _CollectionReducer2 = _interopRequireDefault(_CollectionReducer);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var rootReducer = (0, _redux.combineReducers)({
-    products: _CollectionReducer2.default.factory('product')
+    product: _CollectionReducer2.default.factory('product')
 });
 
 exports.default = rootReducer;
@@ -74072,7 +74072,7 @@ var ProductsContainer = function (_Container) {
         }
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ProductsContainer.__proto__ || Object.getPrototypeOf(ProductsContainer)).call.apply(_ref, [this].concat(args))), _this), _this.findProducts = function () {
-            _this.props.actions.products.findAll();
+            _this.props.actions.product.collect();
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -74090,7 +74090,11 @@ var ProductsContainer = function (_Container) {
          * @returns {XML}
          */
         value: function render() {
-            return _react2.default.createElement(_Products2.default, { onFindProducts: this.findProducts });
+            console.log(this);
+            return _react2.default.createElement(_Products2.default, {
+                container: this,
+                onFindProducts: this.findProducts
+            });
         }
     }]);
 
@@ -74098,14 +74102,16 @@ var ProductsContainer = function (_Container) {
 }(_Container3.default);
 
 ProductsContainer.mapStateToProps = function (state, ownProps) {
+    console.log('TEST');
+    console.log(state);
     return {
-        products: state.products
+        product: state.product
     };
 };
 
 ProductsContainer.mapDispatchToProps = function (dispatch) {
     return {
-        products: (0, _redux.bindActionCreators)(new _CollectionAction2.default('product').create(), dispatch)
+        product: (0, _redux.bindActionCreators)(new _CollectionAction2.default('product').create(), dispatch)
     };
 };
 
@@ -74164,11 +74170,16 @@ var Products = function (_Component) {
          * @returns {XML}
          */
         value: function render() {
+            var product = this.props.container.props.product;
+
+
+            console.log(product);
+
             return _react2.default.createElement(
                 _Layout2.default,
                 {
                     title: 'Products',
-                    description: 'Manage your store products and related attributes' },
+                    description: 'Manage  your store products and related attributes' },
                 _react2.default.createElement(
                     _semanticUiReact.Grid,
                     { columns: 1, divided: true },
@@ -74191,7 +74202,17 @@ var Products = function (_Component) {
                         _react2.default.createElement(
                             _semanticUiReact.Grid.Column,
                             null,
-                            _react2.default.createElement(_DataTable2.default, null)
+                            _react2.default.createElement(
+                                _DataTable2.default,
+                                { provider: product },
+                                _react2.default.createElement(_DataTable2.default.Column.Data, { width: '40', title: 'ID', field: 'id', sortable: true }),
+                                _react2.default.createElement(_DataTable2.default.Column.Data, { title: 'Product Name', field: 'name', sortable: true }),
+                                _react2.default.createElement(
+                                    _DataTable2.default.Column.Text,
+                                    { title: 'Static' },
+                                    'Some text'
+                                )
+                            )
                         )
                     )
                 )
@@ -74357,7 +74378,7 @@ var DataTable = function (_CoreComponent) {
                 { loading: this.isLoading(), visible: this.isLoading() },
                 _react2.default.createElement(
                     'table',
-                    { className: this.getClass() },
+                    { style: { height: 100 + 'px' }, className: this.getClass() },
                     _react2.default.createElement(_DataTableHeader2.default, { parent: this }),
                     _react2.default.createElement(_DataTableBody2.default, { parent: this }),
                     this.getDataset().size > 0 ? _react2.default.createElement(_DataTableFooter2.default, { parent: this }) : null
@@ -75051,7 +75072,7 @@ var DataTableColumnData = function (_CoreComponent) {
             return _react2.default.createElement(
                 'td',
                 null,
-                this.props.record.getIn(['attributes', this.props.field])
+                this.props.record.getIn([this.props.field])
             );
         }
     }]);
@@ -75371,16 +75392,11 @@ exports.default = DimmerLayer;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-// See
-// https://github.com/gaearon/redux-thunk and http://redux.js.org/docs/advanced/AsyncActions.html
-
-
 exports.default = configureStore;
 
 var _redux = __webpack_require__(198);
+
+var _immutable = __webpack_require__(85);
 
 var _reduxThunk = __webpack_require__(462);
 
@@ -75406,14 +75422,33 @@ function configureStore(props, context) {
     // Redux expects to initialize the store using an Object
 
     var initialState = {
-        recipesState: _extends({}, recipesState, { recipe: recipe, recipes: recipes, baseUrl: base, location: location })
+        product: (0, _immutable.fromJS)({
+            status: 2,
+            dataset: props.hydrated_data.product,
+            page: {
+                offset: 1,
+                limit: 10,
+                total: 0
+            },
+            sort: {
+                field: null,
+                order: 'asc'
+            },
+            filter: []
+        })
+    };
 
-        // use devtools if we are in a browser and the extension is enabled
-    };var composeEnhancers = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _redux.compose;
+    console.log(initialState);
 
-    var store = (0, _redux.createStore)(_Root2.default, (0, _redux.applyMiddleware)(_reduxThunk2.default));
+    // use devtools if we are in a browser and the extension is enabled
+    var composeEnhancers = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _redux.compose;
+
+    var store = (0, _redux.createStore)(_Root2.default, initialState, (0, _redux.applyMiddleware)(_reduxThunk2.default));
     return store;
 }
+
+// See
+// https://github.com/gaearon/redux-thunk and http://redux.js.org/docs/advanced/AsyncActions.html
 
 /***/ }),
 /* 1012 */
@@ -75943,21 +75978,12 @@ var ApiRequest = function () {
 
         _classCallCheck(this, ApiRequest);
 
-        this.getEndpoint = function (action, payload, attributes) {
-            var query = payload && payload.query ? payload.query : {};
-            var parts = Object.values(query);
-            var params = parts.join('/');
-            if (params) {
-                params = '/' + params;
+        this.getEndpoint = function (action, query) {
+            if (typeof query === 'undefined') {
+                query = {};
             }
-            var attrs = JSON.stringify(attributes);
-            if (attrs !== '' && typeof attrs !== 'undefined') {
-                attrs = '?params=' + attrs;
-            } else {
-                attrs = '';
-            }
-
-            return ApiRequest.ENDPOINT_URL + _this.entity.replace('_', '/').toLowerCase() + '/' + action.toLowerCase() + params + attrs;
+            var queryJSON = JSON.stringify(query);
+            return ApiRequest.ENDPOINT_URL + _this.entity.replace('_', '/').toLowerCase() + '/' + action.toLowerCase() + '?params=' + queryJSON;
         };
 
         this.entity = entity;
@@ -75999,12 +76025,12 @@ var ApiRequest = function () {
         /**
          * Get request action
          */
-        value: function sendGet(action, payload, attributes) {
+        value: function sendGet(action, query) {
             var _this2 = this;
 
-            return function (dispatch, getState) {
-                dispatch(_this2.actionProvider.createRequestAction(action, payload));
-                return fetch(_this2.getEndpoint(action, payload, attributes), {
+            return function (dispatch) {
+                dispatch(_this2.actionProvider.createRequestAction(action, query));
+                return fetch(_this2.getEndpoint(action, query), {
                     method: 'get',
                     headers: _this2.getHeaders()
                 }).then(function (response) {
@@ -76308,7 +76334,7 @@ var CollectionAction = function (_Action) {
             var _this2 = this;
 
             return {
-                findAll: function findAll(params) {
+                collect: function collect(params) {
                     return _this2.getApi().sendGet('collect', {});
                 },
                 unset: function unset() {

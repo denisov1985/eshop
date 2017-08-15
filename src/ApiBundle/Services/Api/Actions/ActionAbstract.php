@@ -10,6 +10,7 @@ namespace ApiBundle\Services\Api\Actions;
 
 
 use ApiBundle\Services\Api\ActionResolver;
+use ApiBundle\Services\Api\QueryBuilder;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
@@ -17,10 +18,12 @@ use Doctrine\ORM\EntityRepository;
 class ActionAbstract
 {
     protected $resolver;
+    protected $queryBuilder;
 
     public function __construct(ActionResolver $resolver)
     {
-        $this->resolver = $resolver;
+        $this->resolver     = $resolver;
+        $this->queryBuilder = new QueryBuilder($this->resolver->getDoctrine());
     }
 
     /**
@@ -39,24 +42,18 @@ class ActionAbstract
     }
 
     /**
-     * Get entity manager
-     * @return mixed
+     * @return QueryBuilder
      */
-    protected function getEntityManager() : ObjectManager {
-        return $this->resolver->getDoctrine()->getManager();
+    public function getQueryBuilder(): QueryBuilder
+    {
+        return $this->queryBuilder;
     }
 
     /**
-     * Get repository
-     * @param null $entity
-     * @return ObjectRepository
+     * Get entity name
+     * @return mixed
      */
-    protected function getRepository($entity = null) : ObjectRepository {
-        if (is_null($entity)) {
-            $entity = $this->resolver->getEntityName();
-        }
-        $entity = ucfirst($entity);
-        return $this->resolver->getDoctrine()->getRepository('ApiBundle\Entity\\' . $entity);
+    protected function getEntityName() {
+        return $this->resolver->getEntityName();
     }
-
 }

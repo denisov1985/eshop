@@ -16,6 +16,9 @@ class Collect extends ActionAbstract
      */
     protected function process(): array
     {
-        return $this->getRepository()->findAll();
+        return $this->getQueryBuilder()
+            ->collect(
+                $this->getEntityName()
+            );
     }
 }

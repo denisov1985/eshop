@@ -10,9 +10,14 @@ export default class Products extends Component {
      * @returns {XML}
      */
     render() {
+
+        let { product } = this.props.container.props;
+
+        console.log(product );
+
         return (<Layout
             title="Products"
-            description="Manage your store products and related attributes">
+            description="Manage  your store products and related attributes">
 
             <Grid columns={1} divided>
                 <Grid.Row>
@@ -23,7 +28,13 @@ export default class Products extends Component {
 
                 <Grid.Row>
                     <Grid.Column>
-                        <DataTable/>
+                        <DataTable provider={product}>
+                            <DataTable.Column.Data width="40" title="ID" field="id" sortable={true}/>
+                            <DataTable.Column.Data title="Product Name" field="name" sortable={true}/>
+                            <DataTable.Column.Text title="Static">
+                                Some text
+                            </DataTable.Column.Text>
+                        </DataTable>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
