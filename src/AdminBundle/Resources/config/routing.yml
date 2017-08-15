@@ -1,9 +1,7 @@
-admin_homepage_default:
+admin_homepage_dashboard:
     path:     /
-    defaults: { _controller: AdminBundle:Default:index }
+    defaults: { _controller: AdminBundle:Dashboard:index }
 
-admin_homepage:
-    path:     /{path}
-    defaults: { _controller: AdminBundle:Default:index }
-    requirements:
-        path: "^(?!img|api|build|test).+"
+admin_homepage_product:
+    path:     /product
+    defaults: { _controller: AdminBundle:Product:index }

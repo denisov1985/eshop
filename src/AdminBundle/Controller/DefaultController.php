@@ -10,18 +10,38 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
+    protected function getEntityName() {
+        return '';
+    }
+
     public function indexAction(Request $request)
     {
-        $actionResolver = new ActionResolver('product/collect', $request, $this->getDoctrine());
-        $product = $actionResolver->resolve();
-
-        $serializer = \JMS\Serializer\SerializerBuilder::create()->build();
-        $product    = $serializer->serialize($product, 'json', \JMS\Serializer\SerializationContext::create()->setSerializeNull(true));
+        if ('' === $this->getEntityName()) {
+            return $this->getEmptyResponse();
+        }
+        $actionResolver = new ActionResolver(
+            $this->getEntityName() . '/collect',
+            $request,
+            $this->getDoctrine()
+        );
+        $data       = $actionResolver->resolve();
+        $serializer = $this->get('api.serializer');
+        $data       = $serializer->serialize($data);
 
         return $this->render('AdminBundle:Default:index.html.twig', [
             'data' => [
-                'product' => json_decode($product, true)
+                $this->getEntityName() => json_decode($data, true)
             ]
+        ]);
+    }
+
+    /**
+     * Render empty response
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function getEmptyResponse() {
+        return $this->render('AdminBundle:Default:index.html.twig', [
+            'data' => []
         ]);
     }
 }

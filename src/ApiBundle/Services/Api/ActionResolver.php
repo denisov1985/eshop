@@ -27,7 +27,7 @@ class ActionResolver
      */
     public function __construct($path, $request, $doctrine)
     {
-        $this->path       = $path;
+        $this->path       = strtolower($path);
         $this->request    = $request;
         $this->doctrine   = $doctrine;
         $this->entityName = $this->parseEntityName();

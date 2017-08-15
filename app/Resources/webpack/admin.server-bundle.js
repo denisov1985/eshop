@@ -74524,6 +74524,8 @@ var _CoreComponent2 = __webpack_require__(58);
 
 var _CoreComponent3 = _interopRequireDefault(_CoreComponent2);
 
+var _immutable = __webpack_require__(85);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -74555,7 +74557,7 @@ var DataTableSorter = function (_CoreComponent) {
     _createClass(DataTableSorter, [{
         key: 'getSort',
         value: function getSort() {
-            return this.props.parent.props.provider.get('sort');
+            return this.props.parent.props.provider.get('sort', new _immutable.Map({}));
         }
     }, {
         key: 'buildClass',
@@ -75411,34 +75413,12 @@ var _reducers = __webpack_require__(1012);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function configureStore(props, context) {
-
-    // This is how we get initial props from Symfony into redux.
-    var recipes = props.recipes,
-        recipe = props.recipe;
-    var base = context.base,
-        location = context.location;
-    var recipesState = _reducers.initialStates.recipesState;
-
-    // Redux expects to initialize the store using an Object
-
-    var initialState = {
-        product: (0, _immutable.fromJS)({
-            status: 2,
-            dataset: props.hydrated_data.product,
-            page: {
-                offset: 1,
-                limit: 10,
-                total: 0
-            },
-            sort: {
-                field: null,
-                order: 'asc'
-            },
-            filter: []
-        })
-    };
-
-    console.log(initialState);
+    var initialState = {};
+    Object.keys(props.hydrated_data).map(function (objectKey, index) {
+        initialState[objectKey] = (0, _immutable.fromJS)({
+            dataset: props.hydrated_data[objectKey]
+        });
+    });
 
     // use devtools if we are in a browser and the extension is enabled
     var composeEnhancers = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _redux.compose;

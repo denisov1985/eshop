@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import CoreComponent from '../../Core/CoreComponent';
+import {Map} from 'immutable';
 
 export default class DataTableSorter extends CoreComponent {
 
@@ -13,7 +14,7 @@ export default class DataTableSorter extends CoreComponent {
     }
 
     getSort() {
-        return this.props.parent.props.provider.get('sort');
+        return this.props.parent.props.provider.get('sort', new Map({}));
     }
 
     buildClass() {
