@@ -15,6 +15,10 @@ class ProductsContainer extends Container {
         this.props.actions.product.collect();
     };
 
+    onEditProduct = (product) => {
+        console.log(product);
+    };
+
     /**
      * Render menu
      * @returns {XML}
@@ -23,16 +27,17 @@ class ProductsContainer extends Container {
         console.log(this);
         return (<Products
             container={this}
+            onEditProduct={this.onEditProduct}
             onFindProducts={this.findProducts}
         />);
     }
     static mapStateToProps = (state, ownProps) => {
-        console.log('TEST');
-        console.log(state);
         return {
-            product: state.product
+            product: {
+                collection: state.product
+            }
         }
-    }
+    };
 
     static mapDispatchToProps = (dispatch) => ({
         product: bindActionCreators(new CollectionAction('product').create(), dispatch)

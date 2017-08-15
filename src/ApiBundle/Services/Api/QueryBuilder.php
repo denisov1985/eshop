@@ -47,7 +47,7 @@ class QueryBuilder
      * @param null $entity
      * @return EntityRepository
      */
-    protected function getRepository($entity = null) {
+    public function getRepository($entity = null) {
         $entity = ucfirst($entity);
         return $this->getDoctrine()->getManager()->getRepository('ApiBundle\Entity\\' . $entity);
     }

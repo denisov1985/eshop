@@ -30,13 +30,13 @@ class ActionAbstract
      * Process request
      * @return array
      */
-    protected function process() : array {}
+    protected function process() {}
 
     /**
      * Handle api action request
      * @return array
      */
-    public function handle() : array
+    public function handle()
     {
         return $this->process();
     }
@@ -55,5 +55,13 @@ class ActionAbstract
      */
     protected function getEntityName() {
         return $this->resolver->getEntityName();
+    }
+
+    /**
+     * Get action params
+     * @return array
+     */
+    protected function getActionParams() {
+        return $this->resolver->getActionParams();
     }
 }

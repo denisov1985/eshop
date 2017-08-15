@@ -1,9 +1,10 @@
 import DashboardContainer from './DashboardContainer'
 import ProductsContainer from './ProductsContainer'
+import InDevelopmentContainer from './InDevelopmentContainer'
 
 import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter, StaticRouter, Route } from 'react-router-dom';
+import { BrowserRouter, StaticRouter, Route, IndexRoute } from 'react-router-dom';
 import ReactOnRails from 'react-on-rails';
 
 const RootContainer = (_initialProps, context) => {
@@ -28,7 +29,12 @@ const RootContainer = (_initialProps, context) => {
         <Router>
             <div>
                 <Route path={'/'} exact component={DashboardContainer}/>
-                <Route path={'/product'} component={ProductsContainer}/>
+                <Route path="/product">
+                    <div>
+                        <IndexRoute component={ProductsContainer} />
+                        <Route path={'view/:id'} component={InDevelopmentContainer}/>
+                    </div>
+                </Route>
             </div>
         </Router>
     </Provider>)

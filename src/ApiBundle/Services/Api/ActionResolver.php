@@ -18,6 +18,7 @@ class ActionResolver
 
     protected $entityName;
     protected $actionName;
+    protected $actionParams;
 
     /**
      * ActionResolver constructor.
@@ -27,19 +28,30 @@ class ActionResolver
      */
     public function __construct($path, $request, $doctrine)
     {
-        $this->path       = strtolower($path);
-        $this->request    = $request;
-        $this->doctrine   = $doctrine;
-        $this->entityName = $this->parseEntityName();
-        $this->actionName = $this->parseActionName();
+        $this->path         = strtolower($path);
+        $this->request      = $request;
+        $this->doctrine     = $doctrine;
+        $this->entityName   = $this->resolveEntityName();
+        $this->actionName   = $this->resolveActionName();
+        $this->actionParams = $this->resolveActionParams();
+    }
 
+    protected function resolveActionParams() {
+        $parts = explode('/', $this->path);
+        if (!isset($parts[2])) {
+            return [];
+        }
+
+        array_shift($parts);
+        array_shift($parts);
+        return $parts;
     }
 
     /**
      * Get entity name
      * @return string
      */
-    protected function parseEntityName() {
+    protected function resolveEntityName() {
         $parts = explode('/', $this->path);
         return $parts[0];
     }
@@ -48,7 +60,7 @@ class ActionResolver
      * Get action name
      * @return string
      */
-    protected function parseActionName() {
+    protected function resolveActionName() {
         $parts = explode('/', $this->path);
         return $parts[1];
     }
@@ -102,6 +114,14 @@ class ActionResolver
     public function getActionName()
     {
         return $this->actionName;
+    }
+
+    /**
+     * @return array
+     */
+    public function getActionParams(): array
+    {
+        return $this->actionParams;
     }
 
 

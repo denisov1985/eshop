@@ -9,6 +9,8 @@ import DataTableColumnData from './columns/DataTableColumnData';
 import DataTableColumnText from './columns/DataTableColumnText';
 import DataTableColumnControl from './columns/DataTableColumnControl';
 
+import DataButton from './controls/DataButton';
+
 import Dimmer from '../Dimmer/Dimmer';
 
 /**
@@ -85,6 +87,10 @@ DataTable.Column = {
     Data: DataTableColumnData,
     Text: DataTableColumnText,
     Control: DataTableColumnControl,
+}
+
+DataTable.Control = {
+    Button: DataButton
 }
 
 DataTable.defaultProps = {

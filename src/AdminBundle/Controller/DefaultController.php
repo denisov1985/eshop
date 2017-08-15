@@ -14,6 +14,11 @@ class DefaultController extends Controller
         return '';
     }
 
+    /**
+     * Index action returns generic collection
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function indexAction(Request $request)
     {
         if ('' === $this->getEntityName()) {
@@ -30,7 +35,36 @@ class DefaultController extends Controller
 
         return $this->render('AdminBundle:Default:index.html.twig', [
             'data' => [
-                $this->getEntityName() => json_decode($data, true)
+                $this->getEntityName() => [
+                    'collection' => json_decode($data, true)
+                ]
+            ]
+        ]);
+    }
+
+    /**
+     * Get action, returns item details
+     * @param $id
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getAction($id, Request $request)
+    {
+        $actionResolver = new ActionResolver(
+            $this->getEntityName() . '/get/' . $id,
+            $request,
+            $this->getDoctrine()
+        );
+
+        $data       = $actionResolver->resolve();
+        $serializer = $this->get('api.serializer');
+        $data       = $serializer->serialize($data);
+
+        return $this->render('AdminBundle:Default:index.html.twig', [
+            'data' => [
+                $this->getEntityName() => [
+                    'details' => json_decode($data, true)
+                ]
             ]
         ]);
     }

@@ -1,7 +1,14 @@
-admin_homepage_dashboard:
+admin_dashboard:
     path:     /
     defaults: { _controller: AdminBundle:Dashboard:index }
 
-admin_homepage_product:
+admin_product:
     path:     /product
     defaults: { _controller: AdminBundle:Product:index }
+
+
+admin_product_get:
+    path:     /product/view/{id}
+    defaults: { _controller: AdminBundle:Product:get }
+    requirements:
+        id: '\d+'
