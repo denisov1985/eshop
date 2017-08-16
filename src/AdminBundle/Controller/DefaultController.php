@@ -68,7 +68,7 @@ class DefaultController extends Controller
         return $this->render('AdminBundle:Default:index.html.twig', [
             'data' => [
                 $this->getEntityName() => [
-                    'selected'    => [
+                    'details'    => [
                         json_decode($details, true)
                     ],
                     'dataset'     => json_decode($collection, true),
