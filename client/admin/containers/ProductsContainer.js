@@ -24,7 +24,6 @@ class ProductsContainer extends Container {
      * @returns {XML}
      */
     render() {
-        console.log(this);
         return (<Products
             container={this}
             onEditProduct={this.onEditProduct}

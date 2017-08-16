@@ -16,7 +16,6 @@ class DashboardContainer extends Component {
      * @returns {XML}
      */
     render() {
-        console.log(this);
         return (<Dashboard onClick={this.onClick} />);
     }
 }

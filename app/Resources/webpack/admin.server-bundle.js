@@ -51744,7 +51744,6 @@ var DashboardContainer = function (_Component) {
          * @returns {XML}
          */
         value: function render() {
-            console.log(this);
             return _react2.default.createElement(_Dashboard2.default, { onClick: this.onClick });
         }
     }]);
@@ -74729,7 +74728,6 @@ var ProductsContainer = function (_Container) {
          * @returns {XML}
          */
         value: function render() {
-            console.log(this);
             return _react2.default.createElement(_Products2.default, {
                 container: this,
                 onEditProduct: this.onEditProduct,
@@ -76265,20 +76263,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function configureStore(props, context) {
     var initialState = {};
-
-    Object.keys(props.hydrated_data).map(function (objectKey, index) {
-        initialState[objectKey] = {};
-        Object.keys(props.hydrated_data[objectKey]).map(function (objectSubKey, subIndex) {
-            initialState[objectKey][objectSubKey] = (0, _immutable.fromJS)({
-                dataset: props.hydrated_data[objectKey][objectSubKey],
-                status: 2
-            });
-        });
-    });
-
-    console.log('Hidrated data');
-    console.log(props.hydrated_data);
-
     // use devtools if we are in a browser and the extension is enabled
     var composeEnhancers = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _redux.compose;
 
@@ -76320,11 +76304,6 @@ var ReducerFactory = function () {
     function ReducerFactory(entity) {
         _classCallCheck(this, ReducerFactory);
 
-        this.userDetails = function (state, action) {
-            console.log('ololo');
-            return 'trololo';
-        };
-
         this.entity = entity;
     }
 
@@ -76343,7 +76322,6 @@ var ReducerFactory = function () {
                 var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
                 var action = arguments[1];
 
-                console.log(action);
                 if (handlers.hasOwnProperty(action.type)) {
                     return handlers[action.type](state, action);
                 } else {
