@@ -5,15 +5,39 @@ import Immutable from 'immutable';
  */
 export default class Reducer
 {
-    static factory(entity) {
+    static create(entity ) {
         const  instance = new this(entity);
-        return instance.create();
+        return instance.handle();
     }
+
+    handle() {}
+
+    /**
+     * On receive action
+     * @param type
+     * @param callback
+     */
+    onReceiveAction(type, callback) {
+        this.handlers[this.formatReceiveAction(type)] = callback
+    }
+
+    /**
+     * On request action
+     * @param type
+     * @param callback
+     */
+    onRequestAction(type, callback) {
+        this.handlers[this.formatRequestAction(type)] = callback
+    }
+
+    getHandlers = () => this.handlers
+
     /**
      * Class constructor
      * @param entity
      */
     constructor(entity) {
+        this.handlers = [];
         this.entity = entity;
         this.action = new Action(entity);
     }

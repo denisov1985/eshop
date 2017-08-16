@@ -1,6 +1,11 @@
 import {fromJS} from 'immutable';
+import CollectionReducer from './CollectionReducer';
 
 export default class ReducerFactory {
+
+    constructor(entity) {
+        this.entity = entity;
+    }
 
     /**
      * Create reducer
@@ -25,7 +30,7 @@ export default class ReducerFactory {
      */
     createHandlers(initialState) {
         return this.createReducer(fromJS(initialState), {
-            'RECEIVE_PRODUCT_UNSET': this.userDetails
+            ...CollectionReducer.create(this.entity)
         })
     }
 
@@ -38,7 +43,7 @@ export default class ReducerFactory {
         if (typeof initialState === 'undefined') {
             initialState = {};
         }
-        const instance = new ReducerFactory(entity);
+        const  instance = new ReducerFactory(entity);
         return instance.createHandlers(initialState);
     }
 

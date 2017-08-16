@@ -25,7 +25,7 @@ export default class Products extends Component {
 
                 <Grid.Row>
                     <Grid.Column>
-                        <DataTable provider={product.collection}>
+                        <DataTable provider={product}>
                             <DataTable.Column.Data width="40" title="ID" field="id" sortable={true}/>
                             <DataTable.Column.Data title="Product Name" field="name" sortable={true}/>
                             <DataTable.Column.Text title="Static">

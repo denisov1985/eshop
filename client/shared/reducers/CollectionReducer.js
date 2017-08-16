@@ -3,50 +3,31 @@ import { fromJS, Map, List } from 'immutable';
 
 class CollectionReducer extends Reducer
 {
-    /**
-     * Initial state
-     */
-    initState = () => ({
-        dataset: [],
-        page: {
-            offset: 1,
-            limit:  10,
-            total:  0
-        },
-        sort: {
-            field: null,
-            order: 'asc'
-        },
-        filter: []
-    });
+    handle(state, action) {
+        /**
+         * Unset action
+         */
+        this.onReceiveAction('unset', (state, action) => {
+            return state.set('dataset', fromJS([]))
+                .set('status', this.statusComplete());
+        })
 
-    /**
-     * Create reducer
-     * @returns {function(*=, *)}
-     */
-    create() {
-        return (state = this.getInitialState(), action) => {
-            let payload = fromJS(action.payload);
-            console.log(action);
-            console.log(state);
-            switch (action.type) {
-                /**
-                 * Request login
-                 */
-                case this.formatRequestAction('collect'):
-                    return state.set('status', this.statusLoading());
-                    break;
+        /**
+         * Request collect
+         */
+        this.onRequestAction('collect', (state, action) => {
+            return state.set('status', this.statusLoading());
+        })
 
-                /**
-                 * Receive login
-                 */
-                case this.formatReceiveAction('collect'):
-                    return state.set('dataset', payload.get('data'))
-                        .set('status', this.statusComplete());
-                    break;
-            }
-            return state;
-        }
+        /**
+         * Receive collect
+         */
+        this.onReceiveAction('collect', (state, action) => {
+            return state.set('dataset', fromJS(action.payload.data))
+                .set('status', this.statusComplete());
+        })
+
+        return this.getHandlers();
     }
 }
 
