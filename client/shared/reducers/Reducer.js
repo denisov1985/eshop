@@ -70,17 +70,6 @@ export default class Reducer
     }
 
     /**
-     * Get default initial state
-     * @returns {{dataset: {}, status}}
-     */
-    getDefaultInitialState() {
-        return {
-            dataset: {},
-            status: this.statusEmpty()
-        }
-    }
-
-    /**
      * Wrapper for API status empty
      */
     statusEmpty    = () => this.action.getApi().STATUS_EMPTY;
@@ -101,20 +90,7 @@ export default class Reducer
     statusError = () => this.action.getApi().STATUS_ERROR;
 
     /**
-     * Init client state
+     * Get initla state
      */
-    initState = () => ({});
-
-    /**
-     * Get reducer initial state
-     * @returns {{dataset: {}, status}}
-     */
-    getInitialState() {
-        let clientState  = this.initState();
-        let defaultState = this.getDefaultInitialState();
-        for (let key of Object.keys(clientState)) {
-            defaultState[key] = clientState[key];
-        }
-        return Immutable.fromJS(defaultState);
-    }
+    getInitialState = () => ({})
 }

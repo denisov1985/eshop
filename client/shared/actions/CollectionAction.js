@@ -4,8 +4,9 @@ class CollectionAction extends Action
 {
     create() {
         return {
-            collect: (params) => this.getApi().sendGet('collect', {}),
-            unset: () => this.createReceiveAction('unset'),
+            collect:  (params) => this.getApi().sendGet('collect', {}),
+            unset:    () => this.createReceiveAction('unset'),
+            getLocal: () => this.createReceiveAction('get_local'),
         }
     }
 }

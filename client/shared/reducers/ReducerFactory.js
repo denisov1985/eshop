@@ -1,5 +1,6 @@
 import {fromJS} from 'immutable';
 import CollectionReducer from './CollectionReducer';
+import DetailsReducer from './DetailsReducer';
 
 export default class ReducerFactory {
 
@@ -29,7 +30,8 @@ export default class ReducerFactory {
      */
     createHandlers(initialState) {
         return this.createReducer(fromJS(initialState), {
-            ...CollectionReducer.create(this.entity)
+            ...CollectionReducer.create(this.entity),
+            ...DetailsReducer.create(this.entity),
         })
     }
 

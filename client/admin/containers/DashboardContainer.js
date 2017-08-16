@@ -8,7 +8,7 @@ class DashboardContainer extends Component {
 
     onClick = () => {
         console.log(this);
-        this.props.actions.product.collect();
+        this.props.actions.product.getLocal();
     }
 
     /**

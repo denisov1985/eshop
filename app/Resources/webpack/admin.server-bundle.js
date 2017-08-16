@@ -50763,6 +50763,9 @@ var CollectionAction = function (_Action) {
                 },
                 unset: function unset() {
                     return _this2.createReceiveAction('unset');
+                },
+                getLocal: function getLocal() {
+                    return _this2.createReceiveAction('get_local');
                 }
             };
         }
@@ -51731,7 +51734,7 @@ var DashboardContainer = function (_Component) {
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DashboardContainer.__proto__ || Object.getPrototypeOf(DashboardContainer)).call.apply(_ref, [this].concat(args))), _this), _this.onClick = function () {
             console.log(_this);
-            _this.props.actions.product.collect();
+            _this.props.actions.product.getLocal();
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -74728,6 +74731,7 @@ var ProductsContainer = function (_Container) {
          * @returns {XML}
          */
         value: function render() {
+            console.log(this);
             return _react2.default.createElement(_Products2.default, {
                 container: this,
                 onEditProduct: this.onEditProduct,
@@ -76296,6 +76300,10 @@ var _CollectionReducer = __webpack_require__(398);
 
 var _CollectionReducer2 = _interopRequireDefault(_CollectionReducer);
 
+var _DetailsReducer = __webpack_require__(1022);
+
+var _DetailsReducer2 = _interopRequireDefault(_DetailsReducer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -76338,7 +76346,7 @@ var ReducerFactory = function () {
     }, {
         key: 'createHandlers',
         value: function createHandlers(initialState) {
-            return this.createReducer((0, _immutable.fromJS)(initialState), _extends({}, _CollectionReducer2.default.create(this.entity)));
+            return this.createReducer((0, _immutable.fromJS)(initialState), _extends({}, _CollectionReducer2.default.create(this.entity), _DetailsReducer2.default.create(this.entity)));
         }
 
         /**
@@ -76456,7 +76464,7 @@ var Reducer = function () {
             return _this.action.getApi().STATUS_ERROR;
         };
 
-        this.initState = function () {
+        this.getInitialState = function () {
             return {};
         };
 
@@ -76503,20 +76511,6 @@ var Reducer = function () {
         }
 
         /**
-         * Get default initial state
-         * @returns {{dataset: {}, status}}
-         */
-
-    }, {
-        key: 'getDefaultInitialState',
-        value: function getDefaultInitialState() {
-            return {
-                dataset: {},
-                status: this.statusEmpty()
-            };
-        }
-
-        /**
          * Wrapper for API status empty
          */
 
@@ -76537,53 +76531,72 @@ var Reducer = function () {
 
 
         /**
-         * Init client state
+         * Get initla state
          */
 
-    }, {
-        key: 'getInitialState',
-
-
-        /**
-         * Get reducer initial state
-         * @returns {{dataset: {}, status}}
-         */
-        value: function getInitialState() {
-            var clientState = this.initState();
-            var defaultState = this.getDefaultInitialState();
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
-
-            try {
-                for (var _iterator = Object.keys(clientState)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var key = _step.value;
-
-                    defaultState[key] = clientState[key];
-                }
-            } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion && _iterator.return) {
-                        _iterator.return();
-                    }
-                } finally {
-                    if (_didIteratorError) {
-                        throw _iteratorError;
-                    }
-                }
-            }
-
-            return _immutable2.default.fromJS(defaultState);
-        }
     }]);
 
     return Reducer;
 }();
 
 exports.default = Reducer;
+
+/***/ }),
+/* 1022 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Reducer2 = __webpack_require__(1021);
+
+var _Reducer3 = _interopRequireDefault(_Reducer2);
+
+var _immutable = __webpack_require__(53);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DetailsReducer = function (_Reducer) {
+    _inherits(DetailsReducer, _Reducer);
+
+    function DetailsReducer() {
+        _classCallCheck(this, DetailsReducer);
+
+        return _possibleConstructorReturn(this, (DetailsReducer.__proto__ || Object.getPrototypeOf(DetailsReducer)).apply(this, arguments));
+    }
+
+    _createClass(DetailsReducer, [{
+        key: 'handle',
+        value: function handle(state, action) {
+            var _this2 = this;
+
+            /**
+             * Unset action
+             */
+            this.onReceiveAction('get_local', function (state, action) {
+                return state.set('details', (0, _immutable.fromJS)([{ ololo: 'trololo' }])).set('status', _this2.statusComplete());
+            });
+
+            return this.getHandlers();
+        }
+    }]);
+
+    return DetailsReducer;
+}(_Reducer3.default);
+
+exports.default = DetailsReducer;
 
 /***/ })
 /******/ ]);
