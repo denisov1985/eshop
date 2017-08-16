@@ -51330,12 +51330,9 @@ var RootContainer = function RootContainer(_initialProps, context) {
             _react2.default.createElement(
                 'div',
                 null,
-                _react2.default.createElement(_reactRouterDom.Route, { path: '/', exact: true, component: _DashboardContainer2.default }),
-                _react2.default.createElement(
-                    _reactRouterDom.Route,
-                    { path: '/product', component: _ProductsContainer2.default },
-                    _react2.default.createElement(_reactRouterDom.Route, { path: 'view/:id', component: _InDevelopmentContainer2.default })
-                )
+                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _DashboardContainer2.default }),
+                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/product', component: _ProductsContainer2.default }),
+                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/product/view/:id', component: _InDevelopmentContainer2.default })
             )
         )
     );
@@ -51362,11 +51359,17 @@ var _react2 = _interopRequireDefault(_react);
 
 var _immutable = __webpack_require__(85);
 
+var _redux = __webpack_require__(198);
+
 var _reactRedux = __webpack_require__(463);
 
 var _Dashboard = __webpack_require__(670);
 
 var _Dashboard2 = _interopRequireDefault(_Dashboard);
+
+var _CollectionAction = __webpack_require__(1020);
+
+var _CollectionAction2 = _interopRequireDefault(_CollectionAction);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51380,9 +51383,20 @@ var DashboardContainer = function (_Component) {
     _inherits(DashboardContainer, _Component);
 
     function DashboardContainer() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
         _classCallCheck(this, DashboardContainer);
 
-        return _possibleConstructorReturn(this, (DashboardContainer.__proto__ || Object.getPrototypeOf(DashboardContainer)).apply(this, arguments));
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DashboardContainer.__proto__ || Object.getPrototypeOf(DashboardContainer)).call.apply(_ref, [this].concat(args))), _this), _this.onClick = function () {
+            console.log(_this);
+            _this.props.actions.product.unset();
+        }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(DashboardContainer, [{
@@ -51394,7 +51408,8 @@ var DashboardContainer = function (_Component) {
          * @returns {XML}
          */
         value: function render() {
-            return _react2.default.createElement(_Dashboard2.default, null);
+            console.log(this);
+            return _react2.default.createElement(_Dashboard2.default, { onClick: this.onClick });
         }
     }]);
 
@@ -51405,7 +51420,15 @@ var mapStateToProps = function mapStateToProps(state) {
     return { state: state };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(DashboardContainer);
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+    return {
+        actions: {
+            product: (0, _redux.bindActionCreators)(new _CollectionAction2.default('product').create(), dispatch)
+        }
+    };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(DashboardContainer);
 
 /***/ }),
 /* 659 */
@@ -52154,6 +52177,8 @@ var _Layout = __webpack_require__(468);
 
 var _Layout2 = _interopRequireDefault(_Layout);
 
+var _semanticUiReact = __webpack_require__(473);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -52186,6 +52211,11 @@ var Dashboard = function (_Component) {
                     title: 'Dashboard',
                     description: 'Your store dashboard page'
                 },
+                _react2.default.createElement(
+                    _semanticUiReact.Button,
+                    { onClick: this.props.onClick },
+                    'Invoke'
+                ),
                 'Dashboard. In development',
                 this.props.children
             );
@@ -74082,7 +74112,7 @@ var ProductsContainer = function (_Container) {
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ProductsContainer.__proto__ || Object.getPrototypeOf(ProductsContainer)).call.apply(_ref, [this].concat(args))), _this), _this.findProducts = function () {
             _this.props.actions.product.collect();
         }, _this.onEditProduct = function (product) {
-            console.log(product);
+            _this.redirect('/product/view/' + product.get('id'));
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -74114,9 +74144,7 @@ var ProductsContainer = function (_Container) {
 
 ProductsContainer.mapStateToProps = function (state, ownProps) {
     return {
-        product: {
-            collection: state.product
-        }
+        product: state.product
     };
 };
 
@@ -75430,31 +75458,43 @@ var _reduxThunk = __webpack_require__(462);
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-var _Root = __webpack_require__(642);
+var _CollectionReducer = __webpack_require__(1014);
 
-var _Root2 = _interopRequireDefault(_Root);
+var _CollectionReducer2 = _interopRequireDefault(_CollectionReducer);
+
+var _ReducerFactory = __webpack_require__(1025);
+
+var _ReducerFactory2 = _interopRequireDefault(_ReducerFactory);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function configureStore(props, context) {
     var initialState = {};
     console.log(props.hydrated_data);
+
     Object.keys(props.hydrated_data).map(function (objectKey, index) {
         initialState[objectKey] = {};
         Object.keys(props.hydrated_data[objectKey]).map(function (objectSubKey, subIndex) {
-            initialState[objectKey] = (0, _immutable.fromJS)({
+            initialState[objectKey][objectSubKey] = (0, _immutable.fromJS)({
                 dataset: props.hydrated_data[objectKey][objectSubKey],
                 status: 2
             });
         });
     });
 
+    console.log(initialState);
+
     // use devtools if we are in a browser and the extension is enabled
     var composeEnhancers = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _redux.compose;
 
-    var store = (0, _redux.createStore)(_Root2.default, initialState, (0, _redux.applyMiddleware)(_reduxThunk2.default));
+    var rootReducer = (0, _redux.combineReducers)({
+        product: _ReducerFactory2.default.create('product', { ololo: 'trololo' })
+    });
+
+    var store = (0, _redux.createStore)(rootReducer, (0, _redux.applyMiddleware)(_reduxThunk2.default));
     return store;
 }
+//import reducers from '../reducers/Root'
 
 /***/ }),
 /* 1012 */,
@@ -75537,6 +75577,7 @@ var CollectionReducer = function (_Reducer) {
 
                 var payload = (0, _immutable.fromJS)(action.payload);
                 console.log(action);
+                console.log(state);
                 switch (action.type) {
                     /**
                      * Request login
@@ -76073,7 +76114,7 @@ var Container = function (_Component) {
          * @param path
          */
         value: function redirect(path) {
-            this.props.router.push('/' + path);
+            this.props.history.push(path);
         }
     }, {
         key: 'isLoggedIn',
@@ -76407,11 +76448,8 @@ var InDevelopmentContainer = function (_Container) {
          * @returns {XML}
          */
         value: function render() {
-            return _react2.default.createElement(
-                'h1',
-                null,
-                'lalala'
-            );
+            console.log(this.props);
+            return _react2.default.createElement(_InDevelopment2.default, null);
         }
     }]);
 
@@ -76483,6 +76521,92 @@ var InDevelopment = function (_Component) {
 }(_react.Component);
 
 exports.default = InDevelopment;
+
+/***/ }),
+/* 1025 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _immutable = __webpack_require__(85);
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ReducerFactory = function () {
+    function ReducerFactory() {
+        _classCallCheck(this, ReducerFactory);
+
+        this.userDetails = function (state, action) {
+            console.log('ololo');
+            return 'trololo';
+        };
+    }
+
+    _createClass(ReducerFactory, [{
+        key: 'createReducer',
+
+
+        /**
+         * Create reducer
+         * @param initialState
+         * @param handlers
+         * @returns {reducer}
+         */
+        value: function createReducer(initialState, handlers) {
+            return function reducer() {
+                var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+                var action = arguments[1];
+
+                console.log(action);
+                if (handlers.hasOwnProperty(action.type)) {
+                    return handlers[action.type](state, action);
+                } else {
+                    return state;
+                }
+            };
+        }
+
+        /**
+         * Create handlers
+         * @returns {reducer}
+         */
+
+    }, {
+        key: 'createHandlers',
+        value: function createHandlers(initialState) {
+            return this.createReducer((0, _immutable.fromJS)(initialState), {
+                'RECEIVE_PRODUCT_UNSET': this.userDetails
+            });
+        }
+
+        /**
+         * Create reducers
+         * @param entity
+         * @returns {reducer}
+         */
+
+    }], [{
+        key: 'create',
+        value: function create(entity, initialState) {
+            if (typeof initialState === 'undefined') {
+                initialState = {};
+            }
+            var instance = new ReducerFactory(entity);
+            return instance.createHandlers(initialState);
+        }
+    }]);
+
+    return ReducerFactory;
+}();
+
+exports.default = ReducerFactory;
 
 /***/ })
 /******/ ]);

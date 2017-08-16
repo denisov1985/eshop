@@ -16,7 +16,7 @@ class ProductsContainer extends Container {
     };
 
     onEditProduct = (product) => {
-        console.log(product);
+        this.redirect('/product/view/' + product.get('id'));
     };
 
     /**
@@ -33,9 +33,7 @@ class ProductsContainer extends Container {
     }
     static mapStateToProps = (state, ownProps) => {
         return {
-            product: {
-                collection: state.product
-            }
+            product: state.product
         }
     };
 

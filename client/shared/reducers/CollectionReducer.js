@@ -28,6 +28,7 @@ class CollectionReducer extends Reducer
         return (state = this.getInitialState(), action) => {
             let payload = fromJS(action.payload);
             console.log(action);
+            console.log(state);
             switch (action.type) {
                 /**
                  * Request login

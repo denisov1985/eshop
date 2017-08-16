@@ -28,10 +28,9 @@ const RootContainer = (_initialProps, context) => {
     return (<Provider store={store}>
         <Router>
             <div>
-                <Route path={'/'} exact component={DashboardContainer}/>
-                <Route path="/product" component={ProductsContainer}>
-                        <Route path={'view/:id'} component={InDevelopmentContainer}/>
-                </Route>
+                <Route exact path="/" component={DashboardContainer} />
+                <Route exact path="/product" component={ProductsContainer} />
+                <Route exact path="/product/view/:id" component={InDevelopmentContainer} />
             </div>
         </Router>
     </Provider>)

@@ -9,7 +9,7 @@ class Container extends Component {
      * @param path
      */
     redirect(path) {
-        this.props.router.push('/' + path);
+        this.props.history.push(path);
     }
 
     isLoggedIn() {

@@ -11,7 +11,8 @@ class InDevelopmentContainer extends Container {
      * @returns {XML}
      */
     render() {
-        return (<h1>lalala</h1>);
+        console.log(this.props);
+        return (<InDevelopment />);
     }
 }
 

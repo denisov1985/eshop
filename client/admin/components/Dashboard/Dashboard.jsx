@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import Layout from '../Layout/Layout';
+import { Button, Divider, Grid } from 'semantic-ui-react'
+
 export default class Dashboard extends Component {
 
     /**
@@ -10,6 +12,7 @@ export default class Dashboard extends Component {
         return (<Layout
             title="Dashboard"
             description="Your store dashboard page"
-        >Dashboard. In development{this.props.children}</Layout>);
+        ><Button onClick={this.props.onClick}>Invoke</Button>
+            Dashboard. In development{this.props.children}</Layout>);
     }
 }

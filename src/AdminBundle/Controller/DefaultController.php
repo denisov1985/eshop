@@ -14,6 +14,17 @@ class DefaultController extends Controller
         return '';
     }
 
+    protected function resolveData($action, $request) {
+        $actionResolver = new ActionResolver(
+            $this->getEntityName() . $action,
+            $request,
+            $this->getDoctrine()
+        );
+        $data       = $actionResolver->resolve();
+        $serializer = $this->get('api.serializer');
+        return $serializer->serialize($data);
+    }
+
     /**
      * Index action returns generic collection
      * @param Request $request
@@ -50,20 +61,14 @@ class DefaultController extends Controller
      */
     public function getAction($id, Request $request)
     {
-        $actionResolver = new ActionResolver(
-            $this->getEntityName() . '/get/' . $id,
-            $request,
-            $this->getDoctrine()
-        );
-
-        $data       = $actionResolver->resolve();
-        $serializer = $this->get('api.serializer');
-        $data       = $serializer->serialize($data);
+        $details    = $this->resolveData("/get/$id", $request);
+        $collection = $this->resolveData("/collect", $request);
 
         return $this->render('AdminBundle:Default:index.html.twig', [
             'data' => [
                 $this->getEntityName() => [
-                    'details' => json_decode($data, true)
+                    'details'    => json_decode($details, true),
+                    'collection' => json_decode($collection, true),
                 ]
             ]
         ]);
