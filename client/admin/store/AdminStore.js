@@ -8,7 +8,6 @@ import ReducerFactory from 'shared/reducers/ReducerFactory';
 
 export default function configureStore(props, context) {
     let initialState = {};
-    console.log(props.hydrated_data);
 
     Object.keys(props.hydrated_data).map(function(objectKey, index) {
         initialState[objectKey] = {};
@@ -23,13 +22,14 @@ export default function configureStore(props, context) {
 
 
 
-    console.log(initialState);
+    console.log('Hidrated data');
+    console.log(props.hydrated_data);
 
     // use devtools if we are in a browser and the extension is enabled
     let composeEnhancers = typeof(window) !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
     const rootReducer = combineReducers({
-        product: ReducerFactory.create('product', {ololo: 'trololo'})
+        product: ReducerFactory.create('product', fromJS(props.hydrated_data.product))
     });
 
 

@@ -47,7 +47,8 @@ class DefaultController extends Controller
         return $this->render('AdminBundle:Default:index.html.twig', [
             'data' => [
                 $this->getEntityName() => [
-                    'collection' => json_decode($data, true)
+                    'dataset' => json_decode($data, true),
+                    'status'  => 2
                 ]
             ]
         ]);
@@ -67,8 +68,10 @@ class DefaultController extends Controller
         return $this->render('AdminBundle:Default:index.html.twig', [
             'data' => [
                 $this->getEntityName() => [
-                    'details'    => json_decode($details, true),
-                    'collection' => json_decode($collection, true),
+                    'selected'    => [
+                        json_decode($details, true)
+                    ],
+                    'dataset'     => json_decode($collection, true),
                 ]
             ]
         ]);

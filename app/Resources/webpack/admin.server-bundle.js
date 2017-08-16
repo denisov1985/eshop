@@ -76265,7 +76265,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function configureStore(props, context) {
     var initialState = {};
-    console.log(props.hydrated_data);
 
     Object.keys(props.hydrated_data).map(function (objectKey, index) {
         initialState[objectKey] = {};
@@ -76277,13 +76276,14 @@ function configureStore(props, context) {
         });
     });
 
-    console.log(initialState);
+    console.log('Hidrated data');
+    console.log(props.hydrated_data);
 
     // use devtools if we are in a browser and the extension is enabled
     var composeEnhancers = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _redux.compose;
 
     var rootReducer = (0, _redux.combineReducers)({
-        product: _ReducerFactory2.default.create('product', { ololo: 'trololo' })
+        product: _ReducerFactory2.default.create('product', (0, _immutable.fromJS)(props.hydrated_data.product))
     });
 
     var store = (0, _redux.createStore)(rootReducer, (0, _redux.applyMiddleware)(_reduxThunk2.default));
