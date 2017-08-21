@@ -1,12 +1,11 @@
-
-admin:
+admin_domain:
     resource: "@AdminBundle/Resources/config/routing.yml"
-    host: admin.eshop.com
+    host: admin.denysov.net
+    prefix: /
 
-
-shop:
+shop_domain:
     resource: "@ShopBundle/Resources/config/routing.yml"
-    host: eshop.com
+    host: denysov.net     
     prefix:   /
 
 api_bundle:

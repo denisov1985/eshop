@@ -7,8 +7,8 @@ class DetailsReducer extends Reducer
         /**
          * Unset action
          */
-        this.onReceiveAction('get', (state, action) => {
-            return state.set('details', fromJS([{ololo: 'trololo'}]))
+        this.onReceiveAction('get ', (state, action) => {
+            return state.set('details ', fromJS([{ololo: 'trololo'}]))
                 .set('status', this.statusComplete());
         })
 
@@ -16,4 +16,4 @@ class DetailsReducer extends Reducer
     }
 }
 
-export default DetailsReducer;
+export default DetailsReducer;``
