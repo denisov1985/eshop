@@ -56,7 +56,7 @@ export default class DataTable extends CoreComponent {
     }
 
     isLoading() {
-        return this.props.provider.get('status', 0) === 1;
+        return this.props.provider.getIn(['context', 'dataset', 'status'], 0) === 1;
     }
 
     /**

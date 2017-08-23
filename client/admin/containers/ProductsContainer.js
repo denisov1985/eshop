@@ -19,13 +19,19 @@ class ProductsContainer extends Container {
         this.redirect('/product/view/' + product.get('id'));
     };
 
+    getStatus = () => {
+        return this.props.product.getIn(['context', 'dataset', 'status'], 0);
+    };
+
     /**
      * Render menu
      * @returns {XML}
      */
     render() {
         console.log(this);
+        console.log(this.getStatus());
         return (<Products
+            status={this.getStatus()}
             container={this}
             onEditProduct={this.onEditProduct}
             onFindProducts={this.findProducts}

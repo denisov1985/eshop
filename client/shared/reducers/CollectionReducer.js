@@ -16,7 +16,7 @@ class CollectionReducer extends Reducer
          * Request collect
          */
         this.onRequestAction('collect', (state, action) => {
-            return state.set('status', this.statusLoading());
+            return state.setIn(['context', 'dataset', 'status'], this.statusLoading());
         })
 
         /**
@@ -24,7 +24,7 @@ class CollectionReducer extends Reducer
          */
         this.onReceiveAction('collect', (state, action) => {
             return state.set('dataset', fromJS(action.payload.data))
-                .set('status', this.statusComplete());
+                .setIn(['context', 'dataset', 'status'], this.statusComplete());
         })
 
         return this.getHandlers();

@@ -9,8 +9,6 @@ import CrudAction from 'shared/actions/CrudAction';
 class ProductViewContainer extends Container {
 
     componentWillMount() {
-        console.log('Will Mount');
-        console.log(this);
         this.initFromProviderById(this.getParam('id'), 'product');
     }
 
@@ -23,7 +21,6 @@ class ProductViewContainer extends Container {
      * @returns {XML}
      */
     render() {
-        console.log(this);
         return (<ProductView provider={this.getDetails()} container={this} />);
     }
 

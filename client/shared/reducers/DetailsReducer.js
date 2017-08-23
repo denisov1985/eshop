@@ -23,4 +23,4 @@ class DetailsReducer extends Reducer
     }
 }
 
-export default DetailsReducer;``
+export default DetailsReducer;

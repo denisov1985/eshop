@@ -35222,14 +35222,14 @@ var CollectionReducer = function (_Reducer) {
              * Request collect
              */
             this.onRequestAction('collect', function (state, action) {
-                return state.set('status', _this2.statusLoading());
+                return state.setIn(['context', 'dataset', 'status'], _this2.statusLoading());
             });
 
             /**
              * Receive collect
              */
             this.onReceiveAction('collect', function (state, action) {
-                return state.set('dataset', (0, _immutable.fromJS)(action.payload.data)).set('status', _this2.statusComplete());
+                return state.set('dataset', (0, _immutable.fromJS)(action.payload.data)).setIn(['context', 'dataset', 'status'], _this2.statusComplete());
             });
 
             return this.getHandlers();
@@ -74860,6 +74860,8 @@ var ProductsContainer = function (_Container) {
             _this.props.actions.product.collect();
         }, _this.onEditProduct = function (product) {
             _this.redirect('/product/view/' + product.get('id'));
+        }, _this.getStatus = function () {
+            return _this.props.product.getIn(['context', 'dataset', 'status'], 0);
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -74878,7 +74880,9 @@ var ProductsContainer = function (_Container) {
          */
         value: function render() {
             console.log(this);
+            console.log(this.getStatus());
             return _react2.default.createElement(_Products2.default, {
+                status: this.getStatus(),
                 container: this,
                 onEditProduct: this.onEditProduct,
                 onFindProducts: this.findProducts
@@ -75148,7 +75152,7 @@ var DataTable = function (_CoreComponent) {
     }, {
         key: 'isLoading',
         value: function isLoading() {
-            return this.props.provider.get('status', 0) === 1;
+            return this.props.provider.getIn(['context', 'dataset', 'status'], 0) === 1;
         }
 
         /**
@@ -76583,7 +76587,6 @@ var DetailsReducer = function (_Reducer) {
 }(_Reducer3.default);
 
 exports.default = DetailsReducer;
-'';
 
 /***/ }),
 /* 1023 */
@@ -76650,8 +76653,6 @@ var ProductViewContainer = function (_Container) {
     _createClass(ProductViewContainer, [{
         key: 'componentWillMount',
         value: function componentWillMount() {
-            console.log('Will Mount');
-            console.log(this);
             this.initFromProviderById(this.getParam('id'), 'product');
         }
     }, {
@@ -76663,7 +76664,6 @@ var ProductViewContainer = function (_Container) {
          * @returns {XML}
          */
         value: function render() {
-            console.log(this);
             return _react2.default.createElement(_ProductView2.default, { provider: this.getDetails(), container: this });
         }
     }]);
