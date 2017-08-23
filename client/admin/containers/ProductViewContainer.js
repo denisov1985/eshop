@@ -9,7 +9,13 @@ import CrudAction from 'shared/actions/CrudAction';
 class ProductViewContainer extends Container {
 
     componentWillMount() {
-        this.initFromProviderById(7);
+        console.log('Will Mount');
+        console.log(this);
+        this.initFromProviderById(this.getParam('id'), 'product');
+    }
+
+    getDetails = () => {
+        return this.getById(this.getParam('id'), this.props.product.get('details', new Map({})));
     }
 
     /**
@@ -18,7 +24,7 @@ class ProductViewContainer extends Container {
      */
     render() {
         console.log(this);
-        return (<ProductView container={this} />);
+        return (<ProductView provider={this.getDetails()} container={this} />);
     }
 
     static mapDispatchToProps = (dispatch) => ({

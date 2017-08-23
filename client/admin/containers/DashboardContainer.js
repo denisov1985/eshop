@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Map} from 'immutable';
+import {Map, fromJS} from 'immutable';
 import {bindActionCreators} from 'redux'
 import { connect } from 'react-redux'
 import Dashboard from '../components/Dashboard/Dashboard';

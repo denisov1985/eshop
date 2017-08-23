@@ -11,7 +11,7 @@ export default class ProductView extends Component {
      */
     render() {
         const panes = [
-            { menuItem: 'Tab 1', render: () => <Tab.Pane>Tab 1 Content</Tab.Pane> },
+            { menuItem: 'Tab 1', render: () => <Tab.Pane>{this.props.provider.get('name', 'lalal')}</Tab.Pane> },
             { menuItem: 'Tab 2', render: () => <Tab.Pane>Tab 2 Content</Tab.Pane> },
             { menuItem: 'Tab 3', render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> },
         ];

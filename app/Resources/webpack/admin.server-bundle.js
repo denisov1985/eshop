@@ -51073,7 +51073,7 @@ var Container = function (_Component) {
             null;
         }, _this.getById = function (id, list) {
             var data = list.filter(function (record) {
-                return record.get('id') === id;
+                return record.get('id') == id;
             });
             if (data.size === 0) {
                 return new _immutable.Map({});
@@ -51081,11 +51081,15 @@ var Container = function (_Component) {
                 return data.get(0);
             }
         }, _this.initFromProviderById = function (id, type) {
-            var details = _this.getById(id, _this.props[type].get('details', fromJS({})));
+            var details = _this.getById(id, _this.props[type].get('details', (0, _immutable.fromJS)({})));
             if (details.size === 0) {
-                var selected = _this.getById(id, _this.props[type].get('dataset', fromJS([])));
+                var selected = _this.getById(id, _this.props[type].get('dataset', (0, _immutable.fromJS)([])));
+                console.log('Invoke select');
+                console.log(id);
                 _this.props.actions[type].select(selected);
             }
+        }, _this.getParam = function (paramName) {
+            return _this.props.match.params[paramName];
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -76473,6 +76477,9 @@ var ReducerFactory = function () {
                 var action = arguments[1];
 
                 console.log(action);
+                if (typeof console.trace === 'function') {
+                    console.trace();
+                }
                 if (handlers.hasOwnProperty(action.type)) {
                     return handlers[action.type](state, action);
                 } else {
@@ -76563,7 +76570,8 @@ var DetailsReducer = function (_Reducer) {
             });
 
             this.onReceiveAction('select', function (state, action) {
-                console.log(action);
+                console.log('Perform push');
+                console.log(state);
                 return state.set('details', state.get('details', (0, _immutable.fromJS)([])).push(action.payload)).set('status', _this2.statusComplete());
             });
 
@@ -76624,27 +76632,39 @@ var ProductViewContainer = function (_Container) {
     _inherits(ProductViewContainer, _Container);
 
     function ProductViewContainer() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
         _classCallCheck(this, ProductViewContainer);
 
-        return _possibleConstructorReturn(this, (ProductViewContainer.__proto__ || Object.getPrototypeOf(ProductViewContainer)).apply(this, arguments));
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ProductViewContainer.__proto__ || Object.getPrototypeOf(ProductViewContainer)).call.apply(_ref, [this].concat(args))), _this), _this.getDetails = function () {
+            return _this.getById(_this.getParam('id'), _this.props.product.get('details', new _immutable.Map({})));
+        }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(ProductViewContainer, [{
         key: 'componentWillMount',
         value: function componentWillMount() {
-            this.initFromProviderById(7);
+            console.log('Will Mount');
+            console.log(this);
+            this.initFromProviderById(this.getParam('id'), 'product');
         }
+    }, {
+        key: 'render',
+
 
         /**
          * Render menu
          * @returns {XML}
          */
-
-    }, {
-        key: 'render',
         value: function render() {
             console.log(this);
-            return _react2.default.createElement(_ProductView2.default, { container: this });
+            return _react2.default.createElement(_ProductView2.default, { provider: this.getDetails(), container: this });
         }
     }]);
 
@@ -76718,11 +76738,13 @@ var ProductView = function (_Component) {
          * @returns {XML}
          */
         value: function render() {
+            var _this2 = this;
+
             var panes = [{ menuItem: 'Tab 1', render: function render() {
                     return _react2.default.createElement(
                         _semanticUiReact.Tab.Pane,
                         null,
-                        'Tab 1 Content'
+                        _this2.props.provider.get('name', 'lalal')
                     );
                 } }, { menuItem: 'Tab 2', render: function render() {
                     return _react2.default.createElement(

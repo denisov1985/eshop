@@ -13,7 +13,8 @@ class DetailsReducer extends Reducer
         })
 
         this.onReceiveAction('select', (state, action) => {
-            console.log(action);
+            console.log('Perform push');
+            console.log(state);
             return state.set('details', state.get('details', fromJS([])).push(action.payload))
                 .set('status', this.statusComplete());
         })

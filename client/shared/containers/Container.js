@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import {Map} from 'immutable';
+import {Map, fromJS} from 'immutable';
 
 class Container extends Component {
 
@@ -109,7 +109,7 @@ class Container extends Component {
      */
     getById = (id, list) => {
         let data = list.filter((record) => {
-            return record.get('id') === id;
+            return record.get('id') == id;
         });
         if (data.size === 0) {
             return new Map({});
@@ -122,8 +122,14 @@ class Container extends Component {
         const details = this.getById(id, this.props[type].get('details', fromJS({})));
         if (details.size === 0) {
             const selected = this.getById(id, this.props[type].get('dataset', fromJS([])))
+            console.log('Invoke select');
+            console.log(id);
             this.props.actions[type].select(selected);
         }
+    }
+
+    getParam = (paramName) => {
+        return this.props.match.params[paramName];
     }
 }
 
