@@ -3,7 +3,7 @@ import {Map} from 'immutable';
 import {bindActionCreators} from 'redux'
 import { connect } from 'react-redux'
 import Dashboard from '../components/Dashboard/Dashboard';
-import CollectionAction from 'shared/actions/CollectionAction';
+import CollectionAction from 'shared/actions/CrudAction';
 class DashboardContainer extends Component {
 
     onClick = () => {

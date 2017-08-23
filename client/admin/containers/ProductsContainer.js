@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux'
 import { connect } from 'react-redux'
 import Products from '../components/Products/Products';
 import Container from 'shared/containers/Container';
-import CollectionAction from 'shared/actions/CollectionAction';
+import CollectionAction from 'shared/actions/CrudAction';
 
 class ProductsContainer extends Container {
 

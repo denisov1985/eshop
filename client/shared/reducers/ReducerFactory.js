@@ -16,6 +16,7 @@ export default class ReducerFactory {
      */
     createReducer(initialState, handlers) {
         return function reducer(state = initialState, action) {
+            console.log(action);
             if (handlers.hasOwnProperty(action.type)) {
                 return handlers[action.type](state, action)
             } else {

@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {Map} from 'immutable';
 
 class Container extends Component {
 
@@ -98,6 +99,31 @@ class Container extends Component {
 
     getEntity = () => {
         null;
+    }
+
+    /**
+     * Get data by id from list
+     * @param id
+     * @param list
+     * @returns {Map}
+     */
+    getById = (id, list) => {
+        let data = list.filter((record) => {
+            return record.get('id') === id;
+        });
+        if (data.size === 0) {
+            return new Map({});
+        } else  {
+            return data.get(0);
+        }
+    }
+
+    initFromProviderById = (id, type) => {
+        const details = this.getById(id, this.props[type].get('details', fromJS({})));
+        if (details.size === 0) {
+            const selected = this.getById(id, this.props[type].get('dataset', fromJS([])))
+            this.props.actions[type].select(selected);
+        }
     }
 }
 

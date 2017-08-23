@@ -39067,7 +39067,7 @@ function compose() {
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -39088,143 +39088,143 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * Common reducer
  */
 var Reducer = function () {
-  _createClass(Reducer, [{
-    key: 'handle',
-    value: function handle() {}
+    _createClass(Reducer, [{
+        key: 'handle',
+        value: function handle() {}
+
+        /**
+         * On receive action
+         * @param type
+         * @param callback
+         */
+
+    }, {
+        key: 'onReceiveAction',
+        value: function onReceiveAction(type, callback) {
+            this.handlers[this.formatReceiveAction(type)] = callback;
+        }
+
+        /**
+         * On request action
+         * @param type
+         * @param callback
+         */
+
+    }, {
+        key: 'onRequestAction',
+        value: function onRequestAction(type, callback) {
+            this.handlers[this.formatRequestAction(type)] = callback;
+        }
+    }], [{
+        key: 'create',
+        value: function create(entity) {
+            var instance = new this(entity);
+            return instance.handle();
+        }
+    }]);
 
     /**
-     * On receive action
-     * @param type
-     * @param callback
+     * Class constructor
+     * @param entity
      */
+    function Reducer(entity) {
+        var _this = this;
 
-  }, {
-    key: 'onReceiveAction',
-    value: function onReceiveAction(type, callback) {
-      this.handlers[this.formatReceiveAction(type)] = callback;
+        _classCallCheck(this, Reducer);
+
+        this.getHandlers = function () {
+            return _this.handlers;
+        };
+
+        this.statusEmpty = function () {
+            return _this.action.getApi().STATUS_EMPTY;
+        };
+
+        this.statusLoading = function () {
+            return _this.action.getApi().STATUS_LOADING;
+        };
+
+        this.statusComplete = function () {
+            return _this.action.getApi().STATUS_COMPLETE;
+        };
+
+        this.statusError = function () {
+            return _this.action.getApi().STATUS_ERROR;
+        };
+
+        this.getInitialState = function () {
+            return {};
+        };
+
+        this.handlers = [];
+        this.entity = entity;
+        this.action = new _Action2.default(entity);
     }
 
     /**
-     * On request action
-     * @param type
-     * @param callback
-     */
-
-  }, {
-    key: 'onRequestAction',
-    value: function onRequestAction(type, callback) {
-      this.handlers[this.formatRequestAction(type)] = callback;
-    }
-  }], [{
-    key: 'create',
-    value: function create(entity) {
-      var instance = new this(entity);
-      return instance.handle();
-    }
-  }]);
-
-  /**
-   * Class constructor
-   * @param entity
-   */
-  function Reducer(entity) {
-    var _this = this;
-
-    _classCallCheck(this, Reducer);
-
-    this.getHandlers = function () {
-      return _this.handlers;
-    };
-
-    this.statusEmpty = function () {
-      return _this.action.getApi().STATUS_EMPTY;
-    };
-
-    this.statusLoading = function () {
-      return _this.action.getApi().STATUS_LOADING;
-    };
-
-    this.statusComplete = function () {
-      return _this.action.getApi().STATUS_COMPLETE;
-    };
-
-    this.statusError = function () {
-      return _this.action.getApi().STATUS_ERROR;
-    };
-
-    this.getInitialState = function () {
-      return {};
-    };
-
-    this.handlers = [];
-    this.entity = entity;
-    this.action = new _Action2.default(entity);
-  }
-
-  /**
-   * Format action type
-   * @param action
-   * @param type
-   */
-
-
-  _createClass(Reducer, [{
-    key: 'formatAction',
-    value: function formatAction(action, type) {
-      return this.action.formatAction(action, type);
-    }
-
-    /**
-     * Format request action
+     * Format action type
      * @param action
-     * @returns {*}
-     */
-
-  }, {
-    key: 'formatRequestAction',
-    value: function formatRequestAction(action) {
-      return this.formatAction(action, this.action.TYPE_REQUEST);
-    }
-
-    /**
-     * Format receive action
-     * @param action
-     * @returns {*}
-     */
-
-  }, {
-    key: 'formatReceiveAction',
-    value: function formatReceiveAction(action) {
-      return this.formatAction(action, this.action.TYPE_RECEIVE);
-    }
-
-    /**
-     * Wrapper for API status empty
+     * @param type
      */
 
 
-    /**
-     * Wrapper for API status loading
-     */
+    _createClass(Reducer, [{
+        key: 'formatAction',
+        value: function formatAction(action, type) {
+            return this.action.formatAction(action, type);
+        }
+
+        /**
+         * Format request action
+         * @param action
+         * @returns {*}
+         */
+
+    }, {
+        key: 'formatRequestAction',
+        value: function formatRequestAction(action) {
+            return this.formatAction(action, this.action.TYPE_REQUEST);
+        }
+
+        /**
+         * Format receive action
+         * @param action
+         * @returns {*}
+         */
+
+    }, {
+        key: 'formatReceiveAction',
+        value: function formatReceiveAction(action) {
+            return this.formatAction(action, this.action.TYPE_RECEIVE);
+        }
+
+        /**
+         * Wrapper for API status empty
+         */
 
 
-    /**
-     * Wrapper for API status complete
-     */
+        /**
+         * Wrapper for API status loading
+         */
 
 
-    /**
-     * Wrapper for API status error
-     */
+        /**
+         * Wrapper for API status complete
+         */
 
 
-    /**
-     * Get initla state
-     */
+        /**
+         * Wrapper for API status error
+         */
 
-  }]);
 
-  return Reducer;
+        /**
+         * Get initla state
+         */
+
+    }]);
+
+    return Reducer;
 }();
 
 exports.default = Reducer;
@@ -39237,7 +39237,7 @@ exports.default = Reducer;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _ApiRequest = __webpack_require__(662);
@@ -39257,51 +39257,51 @@ var Action =
  * @param entity
  */
 function Action(entity) {
-  var _this = this;
+    var _this = this;
 
-  _classCallCheck(this, Action);
+    _classCallCheck(this, Action);
 
-  this.formatAction = function (action, type) {
-    return [type.toUpperCase(), _this.entity.toUpperCase(), action.toUpperCase()].join('_');
-  };
-
-  this.formatReceiveAction = function (action) {
-    return [Action.TYPE_RECEIVE.toUpperCase(), _this.entity.toUpperCase(), action.toUpperCase()].join('_');
-  };
-
-  this.formatRequestAction = function (action) {
-    return [Action.TYPE_REQUEST.toUpperCase(), _this.entity.toUpperCase(), action.toUpperCase()].join('_');
-  };
-
-  this.createAction = function (action, type, payload) {
-    return {
-      type: _this.formatAction(action, type),
-      payload: payload
+    this.formatAction = function (action, type) {
+        return [type.toUpperCase(), _this.entity.toUpperCase(), action.toUpperCase()].join('_');
     };
-  };
 
-  this.createRequestAction = function (action, payload) {
-    return _this.createAction(action, Action.TYPE_REQUEST, payload);
-  };
+    this.formatReceiveAction = function (action) {
+        return [Action.TYPE_RECEIVE.toUpperCase(), _this.entity.toUpperCase(), action.toUpperCase()].join('_');
+    };
 
-  this.createReceiveAction = function (action, payload) {
-    return _this.createAction(action, Action.TYPE_RECEIVE, payload);
-  };
+    this.formatRequestAction = function (action) {
+        return [Action.TYPE_REQUEST.toUpperCase(), _this.entity.toUpperCase(), action.toUpperCase()].join('_');
+    };
 
-  this.createErrorAction = function (action, payload) {
-    return _this.createAction(action, Action.TYPE_RECEIVE, payload);
-  };
+    this.createAction = function (action, type, payload) {
+        return {
+            type: _this.formatAction(action, type),
+            payload: payload
+        };
+    };
 
-  this.getApi = function () {
-    return _this.api;
-  };
+    this.createRequestAction = function (action, payload) {
+        return _this.createAction(action, Action.TYPE_REQUEST, payload);
+    };
 
-  this.entity = entity;
-  this.api = new _ApiRequest2.default(entity, this);
+    this.createReceiveAction = function (action, payload) {
+        return _this.createAction(action, Action.TYPE_RECEIVE, payload);
+    };
 
-  this.TYPE_REQUEST = 'request';
-  this.TYPE_RECEIVE = 'receive';
-  this.TYPE_ERROR = 'error';
+    this.createErrorAction = function (action, payload) {
+        return _this.createAction(action, Action.TYPE_RECEIVE, payload);
+    };
+
+    this.getApi = function () {
+        return _this.api;
+    };
+
+    this.entity = entity;
+    this.api = new _ApiRequest2.default(entity, this);
+
+    this.TYPE_REQUEST = 'request';
+    this.TYPE_RECEIVE = 'receive';
+    this.TYPE_ERROR = 'error';
 }
 
 /**
@@ -51024,64 +51024,7 @@ process.env.NODE_ENV !== "production" ? StatisticValue.propTypes = {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(0)))
 
 /***/ }),
-/* 638 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _Action2 = __webpack_require__(467);
-
-var _Action3 = _interopRequireDefault(_Action2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CollectionAction = function (_Action) {
-    _inherits(CollectionAction, _Action);
-
-    function CollectionAction() {
-        _classCallCheck(this, CollectionAction);
-
-        return _possibleConstructorReturn(this, (CollectionAction.__proto__ || Object.getPrototypeOf(CollectionAction)).apply(this, arguments));
-    }
-
-    _createClass(CollectionAction, [{
-        key: 'create',
-        value: function create() {
-            var _this2 = this;
-
-            return {
-                collect: function collect(params) {
-                    return _this2.getApi().sendGet('collect', {});
-                },
-                unset: function unset() {
-                    return _this2.createReceiveAction('unset');
-                },
-                getLocal: function getLocal() {
-                    return _this2.createReceiveAction('get_local');
-                }
-            };
-        }
-    }]);
-
-    return CollectionAction;
-}(_Action3.default);
-
-exports.default = CollectionAction;
-
-/***/ }),
+/* 638 */,
 /* 639 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -51101,6 +51044,8 @@ var _react2 = _interopRequireDefault(_react);
 var _redux = __webpack_require__(90);
 
 var _reactRedux = __webpack_require__(199);
+
+var _immutable = __webpack_require__(40);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51126,6 +51071,21 @@ var Container = function (_Component) {
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Container.__proto__ || Object.getPrototypeOf(Container)).call.apply(_ref, [this].concat(args))), _this), _this.getEntity = function () {
             null;
+        }, _this.getById = function (id, list) {
+            var data = list.filter(function (record) {
+                return record.get('id') === id;
+            });
+            if (data.size === 0) {
+                return new _immutable.Map({});
+            } else {
+                return data.get(0);
+            }
+        }, _this.initFromProviderById = function (id, type) {
+            var details = _this.getById(id, _this.props[type].get('details', fromJS({})));
+            if (details.size === 0) {
+                var selected = _this.getById(id, _this.props[type].get('dataset', fromJS([])));
+                _this.props.actions[type].select(selected);
+            }
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -51286,6 +51246,14 @@ var Container = function (_Component) {
                 };
             })(this);
         }
+
+        /**
+         * Get data by id from list
+         * @param id
+         * @param list
+         * @returns {Map}
+         */
+
     }]);
 
     return Container;
@@ -52054,6 +52022,10 @@ var _InDevelopmentContainer = __webpack_require__(1018);
 
 var _InDevelopmentContainer2 = _interopRequireDefault(_InDevelopmentContainer);
 
+var _ProductViewContainer = __webpack_require__(1023);
+
+var _ProductViewContainer2 = _interopRequireDefault(_ProductViewContainer);
+
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
@@ -52104,7 +52076,7 @@ var RootContainer = function RootContainer(_initialProps, context) {
                 null,
                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _DashboardContainer2.default }),
                 _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/product', component: _ProductsContainer2.default }),
-                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/product/view/:id', component: _InDevelopmentContainer2.default })
+                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/product/view/:id', component: _ProductViewContainer2.default })
             )
         )
     );
@@ -52139,9 +52111,9 @@ var _Dashboard = __webpack_require__(676);
 
 var _Dashboard2 = _interopRequireDefault(_Dashboard);
 
-var _CollectionAction = __webpack_require__(638);
+var _CrudAction = __webpack_require__(1025);
 
-var _CollectionAction2 = _interopRequireDefault(_CollectionAction);
+var _CrudAction2 = _interopRequireDefault(_CrudAction);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -52194,7 +52166,7 @@ var mapStateToProps = function mapStateToProps(state) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            product: (0, _redux.bindActionCreators)(new _CollectionAction2.default('product').create(), dispatch)
+            product: (0, _redux.bindActionCreators)(new _CrudAction2.default('product').create(), dispatch)
         }
     };
 };
@@ -52385,12 +52357,12 @@ var KNOWN_STATICS = {
   arity: true
 };
 
-var defineProperty = Object.defineProperty;
-var getOwnPropertyNames = Object.getOwnPropertyNames;
 var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
 var getPrototypeOf = Object.getPrototypeOf;
 var objectPrototype = getPrototypeOf && getPrototypeOf(Object);
+var getOwnPropertyNames = Object.getOwnPropertyNames;
 
 module.exports = function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
     if (typeof sourceComponent !== 'string') { // don't hoist over string (html) components
@@ -52411,10 +52383,12 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
         for (var i = 0; i < keys.length; ++i) {
             var key = keys[i];
             if (!REACT_STATICS[key] && !KNOWN_STATICS[key] && (!blacklist || !blacklist[key])) {
-                var descriptor = getOwnPropertyDescriptor(sourceComponent, key);
-                try { // Avoid failures from read-only properties
-                    defineProperty(targetComponent, key, descriptor);
-                } catch (e) {}
+                // Only hoist enumerables and non-enumerable functions
+                if(propIsEnumerable.call(sourceComponent, key) || typeof sourceComponent[key] === 'function') {
+                    try { // Avoid failures from read-only properties
+                        targetComponent[key] = sourceComponent[key];
+                    } catch (e) {}
+                }
             }
         }
 
@@ -74852,9 +74826,9 @@ var _Container2 = __webpack_require__(639);
 
 var _Container3 = _interopRequireDefault(_Container2);
 
-var _CollectionAction = __webpack_require__(638);
+var _CrudAction = __webpack_require__(1025);
 
-var _CollectionAction2 = _interopRequireDefault(_CollectionAction);
+var _CrudAction2 = _interopRequireDefault(_CrudAction);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -74919,7 +74893,7 @@ ProductsContainer.mapStateToProps = function (state, ownProps) {
 
 ProductsContainer.mapDispatchToProps = function (dispatch) {
     return {
-        product: (0, _redux.bindActionCreators)(new _CollectionAction2.default('product').create(), dispatch)
+        product: (0, _redux.bindActionCreators)(new _CrudAction2.default('product').create(), dispatch)
     };
 };
 
@@ -76498,6 +76472,7 @@ var ReducerFactory = function () {
                 var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
                 var action = arguments[1];
 
+                console.log(action);
                 if (handlers.hasOwnProperty(action.type)) {
                     return handlers[action.type](state, action);
                 } else {
@@ -76584,7 +76559,12 @@ var DetailsReducer = function (_Reducer) {
              * Unset action
              */
             this.onReceiveAction('get', function (state, action) {
-                return state.set('details', (0, _immutable.fromJS)([{ ololo: 'trololo' }])).set('status', _this2.statusComplete());
+                return state.set('details ', (0, _immutable.fromJS)([{ ololo: 'trololo' }])).set('status', _this2.statusComplete());
+            });
+
+            this.onReceiveAction('select', function (state, action) {
+                console.log(action);
+                return state.set('details', state.get('details', (0, _immutable.fromJS)([])).push(action.payload)).set('status', _this2.statusComplete());
             });
 
             return this.getHandlers();
@@ -76595,6 +76575,259 @@ var DetailsReducer = function (_Reducer) {
 }(_Reducer3.default);
 
 exports.default = DetailsReducer;
+'';
+
+/***/ }),
+/* 1023 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _immutable = __webpack_require__(40);
+
+var _redux = __webpack_require__(90);
+
+var _reactRedux = __webpack_require__(199);
+
+var _ProductView = __webpack_require__(1024);
+
+var _ProductView2 = _interopRequireDefault(_ProductView);
+
+var _Container2 = __webpack_require__(639);
+
+var _Container3 = _interopRequireDefault(_Container2);
+
+var _CrudAction = __webpack_require__(1025);
+
+var _CrudAction2 = _interopRequireDefault(_CrudAction);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ProductViewContainer = function (_Container) {
+    _inherits(ProductViewContainer, _Container);
+
+    function ProductViewContainer() {
+        _classCallCheck(this, ProductViewContainer);
+
+        return _possibleConstructorReturn(this, (ProductViewContainer.__proto__ || Object.getPrototypeOf(ProductViewContainer)).apply(this, arguments));
+    }
+
+    _createClass(ProductViewContainer, [{
+        key: 'componentWillMount',
+        value: function componentWillMount() {
+            this.initFromProviderById(7);
+        }
+
+        /**
+         * Render menu
+         * @returns {XML}
+         */
+
+    }, {
+        key: 'render',
+        value: function render() {
+            console.log(this);
+            return _react2.default.createElement(_ProductView2.default, { container: this });
+        }
+    }]);
+
+    return ProductViewContainer;
+}(_Container3.default);
+
+ProductViewContainer.mapDispatchToProps = function (dispatch) {
+    return {
+        product: (0, _redux.bindActionCreators)(new _CrudAction2.default('product').create(), dispatch)
+    };
+};
+
+ProductViewContainer.mapStateToProps = function (state, ownProps) {
+    return {
+        product: state.product
+    };
+};
+
+exports.default = ProductViewContainer.connect();
+
+/***/ }),
+/* 1024 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Layout = __webpack_require__(400);
+
+var _Layout2 = _interopRequireDefault(_Layout);
+
+var _DataTable = __webpack_require__(1005);
+
+var _DataTable2 = _interopRequireDefault(_DataTable);
+
+var _semanticUiReact = __webpack_require__(218);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ProductView = function (_Component) {
+    _inherits(ProductView, _Component);
+
+    function ProductView() {
+        _classCallCheck(this, ProductView);
+
+        return _possibleConstructorReturn(this, (ProductView.__proto__ || Object.getPrototypeOf(ProductView)).apply(this, arguments));
+    }
+
+    _createClass(ProductView, [{
+        key: 'render',
+
+
+        /**
+         * Render menu
+         * @returns {XML}
+         */
+        value: function render() {
+            var panes = [{ menuItem: 'Tab 1', render: function render() {
+                    return _react2.default.createElement(
+                        _semanticUiReact.Tab.Pane,
+                        null,
+                        'Tab 1 Content'
+                    );
+                } }, { menuItem: 'Tab 2', render: function render() {
+                    return _react2.default.createElement(
+                        _semanticUiReact.Tab.Pane,
+                        null,
+                        'Tab 2 Content'
+                    );
+                } }, { menuItem: 'Tab 3', render: function render() {
+                    return _react2.default.createElement(
+                        _semanticUiReact.Tab.Pane,
+                        null,
+                        'Tab 3 Content'
+                    );
+                } }];
+
+            var product = this.props.container.props.product;
+
+
+            return _react2.default.createElement(
+                _Layout2.default,
+                {
+                    title: 'Product view',
+                    description: 'Manage  your  store products and related attributes' },
+                _react2.default.createElement(
+                    _semanticUiReact.Grid,
+                    { columns: 1, divided: true },
+                    _react2.default.createElement(
+                        _semanticUiReact.Grid.Row,
+                        null,
+                        _react2.default.createElement(
+                            _semanticUiReact.Grid.Column,
+                            null,
+                            _react2.default.createElement(_semanticUiReact.Tab, { panes: panes })
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return ProductView;
+}(_react.Component);
+
+exports.default = ProductView;
+
+/***/ }),
+/* 1025 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _Action2 = __webpack_require__(467);
+
+var _Action3 = _interopRequireDefault(_Action2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CrudAction = function (_Action) {
+    _inherits(CrudAction, _Action);
+
+    function CrudAction() {
+        _classCallCheck(this, CrudAction);
+
+        return _possibleConstructorReturn(this, (CrudAction.__proto__ || Object.getPrototypeOf(CrudAction)).apply(this, arguments));
+    }
+
+    _createClass(CrudAction, [{
+        key: 'create',
+        value: function create() {
+            var _this2 = this;
+
+            return {
+                collect: function collect(params) {
+                    return _this2.getApi().sendGet('collect', {});
+                },
+                unset: function unset() {
+                    return _this2.createReceiveAction('unset');
+                },
+                get: function get() {
+                    return _this2.createReceiveAction('get');
+                },
+                select: function select(record) {
+                    return _this2.createReceiveAction('select', record);
+                }
+            };
+        }
+    }]);
+
+    return CrudAction;
+}(_Action3.default);
+
+exports.default = CrudAction;
 
 /***/ })
 /******/ ]);

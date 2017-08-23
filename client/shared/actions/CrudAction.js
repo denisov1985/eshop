@@ -1,14 +1,15 @@
 import Action from './Action';
 
-class CollectionAction extends Action
+class CrudAction extends Action
 {
     create() {
         return {
             collect:  (params) => this.getApi().sendGet('collect', {}),
             unset:    () => this.createReceiveAction('unset'),
-            getLocal: () => this.createReceiveAction('get_local'),
+            get: () => this.createReceiveAction('get'),
+            select: (record) => this.createReceiveAction('select', record),
         }
     }
 }
 
-export default CollectionAction;
+export default CrudAction;

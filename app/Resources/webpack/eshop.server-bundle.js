@@ -31306,7 +31306,7 @@ var Layout = function Layout(_ref) {
                                                                         { className: "tonyMenu__box-inner" },
                                                                         _react2.default.createElement(
                                                                             "ul",
-                                                                            { className: "tonyMenu__inner-list-items tonyMenu__inner-list-single tonyMenu__inner-col-2" },
+                                                                            { className: "tonyMenu__inner-list-items\r tonyMenu__inner-list-single\r tonyMenu__inner-col-2" },
                                                                             _react2.default.createElement(
                                                                                 "li",
                                                                                 null,
@@ -32327,7 +32327,7 @@ var Layout = function Layout(_ref) {
                                                         ),
                                                         _react2.default.createElement(
                                                             "span",
-                                                            { className: "qty", "data-bind": "css: { empty: !!getCartParam('summary_count') == false }, attr: { title: $t('Items in Cart') }", title: "Items in Cart" },
+                                                            { className: "qty", "data-bind": "css: { empty: !!getCartParam('summary_count') == false },\r attr: { title: $t('Items in Cart') }", title: "Items in Cart" },
                                                             "2"
                                                         )
                                                     )
@@ -32470,10 +32470,10 @@ var Layout = function Layout(_ref) {
                                                                                 { className: "info-label" },
                                                                                 "Qty:"
                                                                             ),
-                                                                            _react2.default.createElement("input", { "data-bind": "attr: { id: 'cart-item-'+item_id+'-qty', 'data-cart-item': item_id, 'data-item-qty': qty }, value: qty", type: "number", size: 4, className: "item-qty cart-item-qty input--ys", maxLength: 12, id: "cart-item-4303-qty", "data-cart-item": 4303, "data-item-qty": 1 }),
+                                                                            _react2.default.createElement("input", { "data-bind": "attr: {\r id: 'cart-item-'+item_id+'-qty',\r 'data-cart-item': item_id,\r 'data-item-qty': qty\r }, value: qty", type: "number", size: 4, className: "item-qty cart-item-qty input--ys", maxLength: 12, id: "cart-item-4303-qty", "data-cart-item": 4303, "data-item-qty": 1 }),
                                                                             _react2.default.createElement(
                                                                                 "button",
-                                                                                { "data-bind": "attr: { id: 'update-cart-item-'+item_id, 'data-cart-item': item_id, title: $t('Update') }", className: "update-cart-item btn btn--ys", style: { display: 'none' }, id: "update-cart-item-4303", "data-cart-item": 4303, title: "Update" },
+                                                                                { "data-bind": "attr: {\r id: 'update-cart-item-'+item_id,\r 'data-cart-item': item_id,\r title: $t('Update')\r }", className: "update-cart-item btn btn--ys", style: { display: 'none' }, id: "update-cart-item-4303", "data-cart-item": 4303, title: "Update" },
                                                                                 _react2.default.createElement(
                                                                                     "span",
                                                                                     { "data-bind": "i18n: 'Update'" },
@@ -32591,10 +32591,10 @@ var Layout = function Layout(_ref) {
                                                                                 { className: "info-label" },
                                                                                 "Qty:"
                                                                             ),
-                                                                            _react2.default.createElement("input", { "data-bind": "attr: { id: 'cart-item-'+item_id+'-qty', 'data-cart-item': item_id, 'data-item-qty': qty }, value: qty", type: "number", size: 4, className: "item-qty cart-item-qty input--ys", maxLength: 12, id: "cart-item-4302-qty", "data-cart-item": 4302, "data-item-qty": 1 }),
+                                                                            _react2.default.createElement("input", { "data-bind": "attr: {\r id: 'cart-item-'+item_id+'-qty',\r 'data-cart-item': item_id,\r 'data-item-qty': qty\r }, value: qty", type: "number", size: 4, className: "item-qty cart-item-qty input--ys", maxLength: 12, id: "cart-item-4302-qty", "data-cart-item": 4302, "data-item-qty": 1 }),
                                                                             _react2.default.createElement(
                                                                                 "button",
-                                                                                { "data-bind": "attr: { id: 'update-cart-item-'+item_id, 'data-cart-item': item_id, title: $t('Update') }", className: "update-cart-item btn btn--ys", style: { display: 'none' }, id: "update-cart-item-4302", "data-cart-item": 4302, title: "Update" },
+                                                                                { "data-bind": "attr: {\r id: 'update-cart-item-'+item_id,\r 'data-cart-item': item_id,\r title: $t('Update')\r }", className: "update-cart-item btn btn--ys", style: { display: 'none' }, id: "update-cart-item-4302", "data-cart-item": 4302, title: "Update" },
                                                                                 _react2.default.createElement(
                                                                                     "span",
                                                                                     { "data-bind": "i18n: 'Update'" },

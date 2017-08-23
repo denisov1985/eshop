@@ -1,6 +1,7 @@
 import DashboardContainer from './DashboardContainer'
 import ProductsContainer from './ProductsContainer'
 import InDevelopmentContainer from './InDevelopmentContainer'
+import ProductViewContainer from './ProductViewContainer'
 
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -30,7 +31,7 @@ const RootContainer = (_initialProps, context) => {
             <div>
                 <Route exact path="/" component={DashboardContainer} />
                 <Route exact path="/product" component={ProductsContainer} />
-                <Route exact path="/product/view/:id" component={InDevelopmentContainer} />
+                <Route exact path="/product/view/:id" component={ProductViewContainer} />
             </div>
         </Router>
     </Provider>)
