@@ -1,15 +1,37 @@
 import React, {Component} from 'react'
 import CoreElement from './CoreElement';
 import {Input, Button, Icon, Dropdown} from 'semantic-ui-react'
-import {CompositeDecorator, Editor, EditorState, Modifier, RichUtils, Entity} from 'draft-js';
+import {CompositeDecorator, Editor, EditorState, Modifier, RichUtils, Entity, ContentState} from 'draft-js';
+import htmlToDraft from 'html-to-draftjs';
+import draftToHtml from 'draftjs-to-html';
 
 export default class Textarea extends CoreElement {
 
     constructor(props) {
         super(props);
         this.state = {
-            editorState: EditorState.createEmpty()
+            editorState: this.getEditorStateFromProps(props)
         };
+    }
+
+    getEditorStateFromProps = (props) => {
+        if (typeof window === 'undefined') {
+            return EditorState.createEmpty();
+        }
+
+        if (this.getValue(props) === '') {
+            return EditorState.createEmpty();
+        }
+
+        let value = this.getValue(props);
+        if (/<[a-z][\s\S]*>/i.test(value) === false) {
+            value = '<p>' + value + '</p>';
+        }
+
+        const blocksFromHtml = htmlToDraft(value);
+        const contentBlocks  = blocksFromHtml.contentBlocks;
+        const contentState   = ContentState.createFromBlockArray(contentBlocks);
+        return EditorState.createWithContent(contentState);
     }
 
     onTextareaChange = (editorState) => this.setState({editorState});
