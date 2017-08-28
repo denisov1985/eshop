@@ -8,6 +8,7 @@ class CrudAction extends Action
             unset:    () => this.createReceiveAction('unset'),
             get: () => this.createReceiveAction('get'),
             select: (record) => this.createReceiveAction('select', record),
+            update: (record) => this.createReceiveAction('update', record),
         }
     }
 }

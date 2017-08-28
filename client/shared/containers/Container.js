@@ -122,14 +122,26 @@ class Container extends Component {
         const details = this.getById(id, this.props[type].get('details', fromJS({})));
         if (details.size === 0) {
             const selected = this.getById(id, this.props[type].get('dataset', fromJS([])))
-            console.log('Invoke select');
-            console.log(id);
             this.props.actions[type].select(selected);
         }
     }
 
     getParam = (paramName) => {
         return this.props.match.params[paramName];
+    }
+
+    /**
+     * Get data provider
+     * @param id
+     * @param type
+     * @returns {{data: Map, actions}}
+     */
+    getDataProvider = (id, type) => {
+        const details = this.getById(id, this.props[type].get('details', fromJS({})));
+        return {
+            data: details,
+            actions: this.props.actions[type]
+        }
     }
 }
 

@@ -19,6 +19,17 @@ class DetailsReducer extends Reducer
                 .set('status', this.statusComplete());
         })
 
+        this.onReceiveAction('update', (state, action) => {
+            console.log('Receive');
+            console.log(action);
+
+            const index = state.get('details').map((e) => {
+                return e.get('id');
+            }).indexOf(action.payload.get('id'));
+
+            return state.setIn(['details', index], action.payload);
+        })
+
         return this.getHandlers();
     }
 }

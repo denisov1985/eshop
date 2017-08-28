@@ -12,16 +12,16 @@ class ProductViewContainer extends Container {
         this.initFromProviderById(this.getParam('id'), 'product');
     }
 
-    getDetails = () => {
-        return this.getById(this.getParam('id'), this.props.product.get('details', new Map({})));
-    }
-
     /**
      * Render menu
      * @returns {XML}
      */
     render() {
-        return (<ProductView provider={this.getDetails()} container={this} />);
+        console.log('ok');
+        return (<ProductView
+            provider={this.getDataProvider(this.getParam('id'), 'product')}
+            container={this}
+        />);
     }
 
     static mapDispatchToProps = (dispatch) => ({
