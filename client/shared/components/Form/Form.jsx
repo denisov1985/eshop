@@ -3,6 +3,7 @@ import CoreComponent from '../Core/CoreComponent';
 
 import InputText from './elements/InputText'
 import InputNumber from './elements/InputNumber'
+import Textarea from './elements/Textarea'
 
 export default class Form extends CoreComponent {
 
@@ -22,4 +23,5 @@ export default class Form extends CoreComponent {
 Form.Input = {
     Text: InputText,
     Number: InputNumber,
+    Textarea: Textarea,
 };

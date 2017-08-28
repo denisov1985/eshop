@@ -13,6 +13,7 @@ export default class MainForm extends Component {
             <Form provider={this.props.provider}>
                 <Form.Input.Text title="Product name" field="name" />
                 <Form.Input.Number title="Price" field="price" />
+                <Form.Input.Textarea title="Description" field="description" />
             </Form>
         </div>);
     }

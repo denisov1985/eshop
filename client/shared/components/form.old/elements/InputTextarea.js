@@ -19,7 +19,6 @@ export default class InputTextarea extends Element {
         }   else  {
             this.state = {editorState: EditorState.createEmpty()};
         }
-
     }
 
     getEditorStateFromProps = (props) => {

@@ -10,8 +10,11 @@ export default class CoreElement extends CoreComponent {
         );
     };
 
-    getValue = () => {
-        return this.props.provider.data.get(this.props.field);
+    getValue = (props) => {
+        if (typeof props === 'undefined') {
+            props = this.props;
+        }
+        return props.provider.data.get(this.props.field);
     };
 
     /**

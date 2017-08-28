@@ -17,7 +17,6 @@ class ProductViewContainer extends Container {
      * @returns {XML}
      */
     render() {
-        console.log('ok');
         return (<ProductView
             provider={this.getDataProvider(this.getParam('id'), 'product')}
             container={this}
