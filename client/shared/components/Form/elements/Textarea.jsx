@@ -14,6 +14,16 @@ export default class Textarea extends CoreElement {
         };
     }
 
+    componentWillReceiveProps(nextProps) {
+        console.log('next props');
+        console.log(nextProps);
+        this.onTextareaChange(this.getEditorStateFromProps(nextProps));
+    }
+
+    isServer = () => {
+        return (typeof window === 'undefined');
+    }
+
     getEditorStateFromProps = (props) => {
         if (typeof window === 'undefined') {
             return EditorState.createEmpty();
@@ -36,7 +46,7 @@ export default class Textarea extends CoreElement {
 
     onTextareaChange = (editorState) => this.setState({editorState});
 
-    _onBoldClick(type) {
+    _onBoldClick(type, e) {
         this.onTextareaChange(RichUtils.toggleInlineStyle(this.state.editorState, type));
     }
 
@@ -51,6 +61,8 @@ export default class Textarea extends CoreElement {
      */
     build() {
 
+        const inlineStyle = this.state.editorState.getCurrentInlineStyle();
+
         const headerOptions = [
             {
                 text: 'Normal',
@@ -58,20 +70,43 @@ export default class Textarea extends CoreElement {
             },
         ];
 
+        let active = {
+            bold: {},
+            italic: {},
+            underline: {},
+            strikethrough: {},
+        };
+
+        if (inlineStyle.has('BOLD')) {
+            active.bold.active = true;
+        }
+
+        if (inlineStyle.has('ITALIC')) {
+            active.italic.active = true;
+        }
+
+        if (inlineStyle.has('UNDERLINE')) {
+            active.underline.active = true;
+        }
+
+        if (inlineStyle.has('STRIKETHROUGH')) {
+            active.strikethrough.active = true;
+        }
+
         return (<div>
-            <Button type="button"  icon onClick={this._onBoldClick.bind(this, 'BOLD')}>
+            <Button {...active.bold} type="button"  icon onClick={this._onBoldClick.bind(this, 'BOLD')}>
                 <Icon name='bold'/>
             </Button>
 
-            <Button type="button"  icon onClick={this._onBoldClick.bind(this, 'ITALIC')}>
+            <Button {...active.italic} type="button"  icon onClick={this._onBoldClick.bind(this, 'ITALIC')}>
                 <Icon name='italic'/>
             </Button>
 
-            <Button type="button"  icon onClick={this._onBoldClick.bind(this, 'UNDERLINE')}>
+            <Button {...active.underline} type="button"  icon onClick={this._onBoldClick.bind(this, 'UNDERLINE')}>
                 <Icon name='underline'/>
             </Button>
 
-            <Button type="button" style={{marginRight: 8 + 'px'}}  icon
+            <Button {...active.strikethrough} type="button" style={{marginRight: 8 + 'px'}}  icon
                     onClick={this._onBoldClick.bind(this, 'STRIKETHROUGH')}>
                 <Icon name='strikethrough'/>
             </Button>
@@ -107,17 +142,27 @@ export default class Textarea extends CoreElement {
                 borderRadius: '.28571429rem',
                 marginTop: 8 + 'px'
             }}>
-                <Editor
-                    editorStyle={{
-                        padding: '0.67857143em 1em',
-                        fontSize: '1em',
-                        height: 400 + 'px !important'
-                    }}
-                    editorState={this.state.editorState}
-                    onChange={this.onTextareaChange}
-                />
+                {this.isServer() ? this.renderServerSide() : this.renderEditor()}
             </div></div>);
     }
 
+    renderEditor = () => {
+        return (<Editor
+            editorStyle={{
+                padding: '0.67857143em 1em',
+                fontSize: '1em',
+                height: 400 + 'px  !important'
+            }}
+            editorState={this.state.editorState}
+            onChange={this.onTextareaChange}
+        />);
+    };
+
+    renderServerSide = () => {
+        return (<div style={{
+            fontSize: '1em',
+            height: 400 + 'px  !important'
+        }}>{this.getValue()}</div>)
+    }
 
 }
