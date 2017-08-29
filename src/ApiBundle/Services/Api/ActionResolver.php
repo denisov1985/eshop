@@ -62,7 +62,9 @@ class ActionResolver
      */
     protected function resolveActionName() {
         $parts = explode('/', $this->path);
-        return $parts[1];
+        $str = $parts[1];
+        $str = str_replace(' ', '', ucwords(str_replace('_', ' ', $str)));
+        return $str;
     }
 
     /**

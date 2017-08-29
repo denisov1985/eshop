@@ -12,7 +12,8 @@ export default function configureStore(props, context) {
     let composeEnhancers = typeof(window) !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
     const rootReducer = combineReducers({
-        product: ReducerFactory.create('product', fromJS(props.hydrated_data.product))
+        product: ReducerFactory.create('product', fromJS(props.hydrated_data.product)),
+        category: ReducerFactory.create('category', fromJS(props.hydrated_data.category)),
     });
 
 

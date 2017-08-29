@@ -17,6 +17,8 @@ class ProductViewContainer extends Container {
      * @returns {XML}
      */
     render() {
+        console.log('112');
+        console.log(this);
         return (<ProductView
             provider={this.getDataProvider(this.getParam('id'), 'product')}
             container={this}
@@ -28,8 +30,10 @@ class ProductViewContainer extends Container {
     })
 
     static mapStateToProps = (state, ownProps) => {
+        console.log(state);
         return {
-            product: state.product
+            product: state.product,
+            category: state.category
         }
     };
 }

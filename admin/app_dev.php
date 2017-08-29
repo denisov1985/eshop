@@ -5,7 +5,6 @@ use Symfony\Component\HttpFoundation\Request;
 // read https://symfony.com/doc/current/setup.html#checking-symfony-application-configuration-and-setup
 // for more information
 umask(0000);
-
 require __DIR__.'/../vendor/autoload.php';
 Debug::enable();
 

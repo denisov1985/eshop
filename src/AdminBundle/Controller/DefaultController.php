@@ -10,13 +10,28 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
+    const ACTION_DETAILS        = 'get';
+    const ACTION_COLLECTION     = 'collect';
+    const ACTION_COLLECTION_ALL = 'collect_all';
+
     protected function getEntityName() {
         return '';
     }
 
-    protected function resolveData($action, $request) {
+    public function mapActionToProp($action)
+    {
+        $map = [
+            self::ACTION_DETAILS => 'details',
+            self::ACTION_COLLECTION => 'dataset',
+            self::ACTION_COLLECTION_ALL => 'dataset',
+        ];
+
+        return $map[$action];
+    }
+
+    protected function resolveData($action, $request, $entity) {
         $actionResolver = new ActionResolver(
-            $this->getEntityName() . $action,
+            $entity . $action,
             $request,
             $this->getDoctrine()
         );
@@ -54,6 +69,28 @@ class DefaultController extends Controller
         ]);
     }
 
+    public function getCollectionParams()
+    {
+        return [
+            self::ACTION_COLLECTION => []
+        ];
+    }
+
+    public function getCollectionAllParams()
+    {
+        return [
+            self::ACTION_COLLECTION_ALL => []
+        ];
+    }
+
+    public function getAllParams($id)
+    {
+        return [
+            self::ACTION_DETAILS    => [$id],
+            self::ACTION_COLLECTION => [],
+        ];
+    }
+
     /**
      * Get action, returns item details
      * @param $id
@@ -62,8 +99,33 @@ class DefaultController extends Controller
      */
     public function getAction($id, Request $request)
     {
-        $details    = $this->resolveData("/get/$id", $request);
-        $collection = $this->resolveData("/collect", $request);
+
+        $details    = $this->resolveData("/get/$id", $request, $this->getEntityName());
+        $collection = $this->resolveData("/collect", $request, $this->getEntityName());
+
+        /*echo "<pre>";
+        print_r([
+            'data' => [
+                $this->getEntityName() => [
+                    'details'    => [
+                        json_decode($details, true)
+                    ],
+                    'dataset'     => json_decode($collection, true),
+                ]
+            ]
+        ]);
+        die();*/
+
+        return $this->getResponse([
+            'product'  => $this->getAllParams($id),
+            'category' => $this->getCollectionAllParams()
+        ], $request);
+
+
+        die('');
+
+        $details    = $this->resolveData("/get/$id", $request, $this->getEntityName());
+        $collection = $this->resolveData("/collect", $request, $this->getEntityName());
 
         return $this->render('AdminBundle:Default:index.html.twig', [
             'data' => [
@@ -74,6 +136,26 @@ class DefaultController extends Controller
                     'dataset'     => json_decode($collection, true),
                 ]
             ]
+        ]);
+    }
+
+    public function getResponse($params, $request)
+    {
+        $context = [];
+        foreach ($params as $name => $param) {
+            foreach ($param as $type => $p) {
+                $context[$name][$this->mapActionToProp($type)] = json_decode(
+                    $this->resolveData("/" . $type . "/" . array_pop($p), $request, $name), true
+                );
+            }
+        }
+
+        /*echo "<pre>";
+        print_r(['data' => $context]);
+        die();*/
+
+        return $this->render('AdminBundle:Default:index.html.twig', [
+            'data' => $context
         ]);
     }
 

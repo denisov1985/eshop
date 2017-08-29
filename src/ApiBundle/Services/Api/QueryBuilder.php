@@ -59,8 +59,7 @@ class QueryBuilder
      */
     protected function createBuilder($entity) {
         $builder = $this->getRepository($entity)
-            ->createQueryBuilder('p')
-            ->setMaxResults(10);
+            ->createQueryBuilder('p');
         return $builder;
     }
 
@@ -71,7 +70,18 @@ class QueryBuilder
      */
     public function collect($entity) {
         $builder = $this->createBuilder($entity)
+            ->setMaxResults(10)
             ->setFirstResult(1);
+        return $builder->getQuery()->getResult();
+    }
+
+    /**
+     * Collect all records
+     * @param $entity
+     * @return array
+     */
+    public function collectAll($entity) {
+        $builder = $this->createBuilder($entity)->setMaxResults(100);
         return $builder->getQuery()->getResult();
     }
 

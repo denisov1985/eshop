@@ -1,3 +1,5 @@
+import 'whatwg-fetch';
+
 class ApiRequest
 {
 
@@ -20,7 +22,7 @@ class ApiRequest
     getHeaders() {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json' ,
         }
         let token = window.sessionStorage.getItem('token');
         if (token) {

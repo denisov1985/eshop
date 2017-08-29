@@ -8,7 +8,7 @@ namespace ApiBundle\Services\Api\Actions;
  * Date: 14.08.2017
  * Time: 22:25
  */
-class Get extends ActionAbstract
+class CollectAll extends ActionAbstract
 {
     /**
      * Override
@@ -16,8 +16,9 @@ class Get extends ActionAbstract
      */
     protected function process()
     {
-        return [$this->getQueryBuilder()
-            ->getRepository($this->getEntityName())
-            ->find($this->getActionParams()[0])];
+        return $this->getQueryBuilder()
+            ->collectAll(
+                $this->getEntityName()
+            );
     }
 }
