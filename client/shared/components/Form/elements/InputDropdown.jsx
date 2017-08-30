@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import CoreElement from './CoreElement';
 import { Dropdown } from 'semantic-ui-react'
+import {Map, List, fromJS} from 'immutable';
 
 export default class InputDropdown extends CoreElement {
 
@@ -41,7 +42,17 @@ export default class InputDropdown extends CoreElement {
             { key: 'ux', text: 'User Experience', value: 'ux' },
         ];
 
-        return (<Dropdown onChange={this.onDropdownChange} placeholder='Category' search fluid multiple selection options={dataOptions.toJS()} />);
+        console.log(this.getValue());
+
+        const val = this.getValue() ? this.getValue() : new List([]);
+
+        const values = val.map((e) => {
+            return e.get('id');
+        }).toJS();
+
+        console.log(values);
+
+        return (<Dropdown value={values} onChange={this.onDropdownChange} placeholder='Category' search fluid multiple selection options={dataOptions.toJS()} />);
     }
 
     onDropdownChange = (event, data) => {

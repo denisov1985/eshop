@@ -47,26 +47,10 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        if ('' === $this->getEntityName()) {
-            return $this->getEmptyResponse();
-        }
-        $actionResolver = new ActionResolver(
-            $this->getEntityName() . '/collect',
-            $request,
-            $this->getDoctrine()
-        );
-        $data       = $actionResolver->resolve();
-        $serializer = $this->get('api.serializer');
-        $data       = $serializer->serialize($data);
-
-        return $this->render('AdminBundle:Default:index.html.twig', [
-            'data' => [
-                $this->getEntityName() => [
-                    'dataset' => json_decode($data, true),
-                    'status'  => 2
-                ]
-            ]
-        ]);
+        return $this->getResponse([
+            'product'  => $this->getCollectionParams(),
+            'category' => $this->getCollectionAllParams()
+        ], $request);
     }
 
     public function getCollectionParams()
@@ -99,23 +83,6 @@ class DefaultController extends Controller
      */
     public function getAction($id, Request $request)
     {
-
-        $details    = $this->resolveData("/get/$id", $request, $this->getEntityName());
-        $collection = $this->resolveData("/collect", $request, $this->getEntityName());
-
-        /*echo "<pre>";
-        print_r([
-            'data' => [
-                $this->getEntityName() => [
-                    'details'    => [
-                        json_decode($details, true)
-                    ],
-                    'dataset'     => json_decode($collection, true),
-                ]
-            ]
-        ]);
-        die();*/
-
         return $this->getResponse([
             'product'  => $this->getAllParams($id),
             'category' => $this->getCollectionAllParams()

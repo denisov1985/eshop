@@ -16,7 +16,10 @@ class DefaultController extends Controller
         $serializer = \JMS\Serializer\SerializerBuilder::create()->build();
         $content    = $serializer->serialize($data, 'json', \JMS\Serializer\SerializationContext::create()->setSerializeNull(true));
         $response = new JsonResponse([
-            'data' => json_decode($content, true)
+            'data' => json_decode($content, true),
+            'request' => [
+                'body' => $actionResolver->getData()
+            ]
         ]);
         return $response;
     }

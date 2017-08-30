@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
 import CoreElement from './CoreElement';
 import {Input, Button, Icon, Dropdown} from 'semantic-ui-react'
-import {CompositeDecorator, Editor, EditorState, Modifier, RichUtils, Entity, ContentState} from 'draft-js';
+import {CompositeDecorator, Editor, EditorState, Modifier, RichUtils, Entity, ContentState, convertToRaw} from 'draft-js';
 import htmlToDraft from 'html-to-draftjs';
 import draftToHtml from 'draftjs-to-html';
+import renderHTML from 'react-render-html';
 
 export default class Textarea extends CoreElement {
 
@@ -44,7 +45,15 @@ export default class Textarea extends CoreElement {
         return EditorState.createWithContent(contentState);
     }
 
-    onTextareaChange = (editorState) => this.setState({editorState});
+    onTextareaChange = (editorState) => {
+        this.setState({editorState})
+    };
+
+    onBlur = (editorState) => {
+        const rawContentState = convertToRaw(this.state.editorState.getCurrentContent());
+        const markup = draftToHtml(rawContentState);
+        this.updateValue(markup);
+    }
 
     _onBoldClick(type, e) {
         this.onTextareaChange(RichUtils.toggleInlineStyle(this.state.editorState, type));
@@ -140,7 +149,9 @@ export default class Textarea extends CoreElement {
             <div style={{
                 border: '1px solid rgba(34,36,38,.15)',
                 borderRadius: '.28571429rem',
-                marginTop: 8 + 'px'
+                marginTop: 8 + 'px',
+                padding: 4 + 'px',
+                overflowY: 'auto'
             }}>
                 {this.isServer() ? this.renderServerSide() : this.renderEditor()}
             </div></div>);
@@ -149,12 +160,12 @@ export default class Textarea extends CoreElement {
     renderEditor = () => {
         return (<Editor
             editorStyle={{
-                padding: '0.67857143em 1em',
                 fontSize: '1em',
                 height: 300 + 'px  !important'
             }}
             editorState={this.state.editorState}
             onChange={this.onTextareaChange}
+            onBlur={this.onBlur}
         />);
     };
 
@@ -162,7 +173,7 @@ export default class Textarea extends CoreElement {
         return (<div style={{
             fontSize: '1em',
             height: 300 + 'px  !important'
-        }}>{this.getValue()}</div>)
+        }}>{renderHTML(this.getValue())}</div>)
     }
 
 }

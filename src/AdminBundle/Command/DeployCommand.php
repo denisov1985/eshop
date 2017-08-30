@@ -46,7 +46,7 @@ class DeployCommand extends Command
         $serverBundle = $path . '/admin/build/bundle.js';
 
         $seconds = 0;
-        $clientHash = md5_file($clientBundle);
+        $clientHash = null;
         while (true) {
 
             if (md5_file($clientBundle) !== $clientHash) {

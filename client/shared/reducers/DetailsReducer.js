@@ -13,21 +13,24 @@ class DetailsReducer extends Reducer
         })
 
         this.onReceiveAction('select', (state, action) => {
-            console.log('Perform push');
-            console.log(state);
             return state.set('details', state.get('details', fromJS([])).push(action.payload))
                 .set('status', this.statusComplete());
         })
 
         this.onReceiveAction('update', (state, action) => {
-            console.log('Receive');
-            console.log(action);
-
             const index = state.get('details').map((e) => {
                 return e.get('id');
             }).indexOf(action.payload.get('id'));
 
             return state.setIn(['details', index], action.payload);
+        })
+
+        this.onRequestAction('save', (state, action) => {
+            return state.setIn(['context', action.payload.id, 'status'], this.statusLoading());
+        })
+
+        this.onReceiveAction('save', (state, action) => {
+            return state.setIn(['context', action.payload.request.body.id, 'status'], this.statusComplete());
         })
 
         return this.getHandlers();

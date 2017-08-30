@@ -138,8 +138,13 @@ class Container extends Component {
      */
     getDataProvider = (id, type) => {
         const details = this.getById(id, this.props[type].get('details', fromJS({})));
+        console.log('test1');
+        console.log(id);
+        console.log(this.props[type]);
+        const context = this.props[type].getIn(['context', parseInt(id, 10)], fromJS({}));
         return {
             data: details,
+            context: context,
             actions: this.props.actions[type]
         }
     }

@@ -12,9 +12,14 @@ export default class ProductView extends Component {
      */
     render() {
         const panes = [
-            { menuItem: 'Product details', render: () => <Tab.Pane><MainForm onSaveProduct={this.props.onSaveProduct} container={this.props.container} provider={this.props.provider}/></Tab.Pane> },
-            { menuItem: 'Tab 2', render: () => <Tab.Pane>Tab 2 Content</Tab.Pane> },
-            { menuItem: 'Tab 3', render: () => <Tab.Pane>Tab 3 Content</Tab.Pane> },
+            { menuItem: 'Information', render: () => <Tab.Pane><MainForm onSaveProduct={this.props.onSaveProduct} container={this.props.container} provider={this.props.provider}/></Tab.Pane> },
+            { menuItem: 'Attributes', render: () => <Tab.Pane>Under construction</Tab.Pane> },
+            { menuItem: 'Inventory tracking', render: () => <Tab.Pane>Under construction</Tab.Pane> },
+            { menuItem: 'Related products', render: () => <Tab.Pane>Under construction</Tab.Pane> },
+            { menuItem: 'Product reviews', render: () => <Tab.Pane>Under construction</Tab.Pane> },
+            { menuItem: 'Tabs', render: () => <Tab.Pane>Under construction</Tab.Pane> },
+            { menuItem: 'PIN Codes', render: () => <Tab.Pane>Under construction</Tab.Pane> },
+            { menuItem: 'Attachmenets', render: () => <Tab.Pane>Under construction</Tab.Pane> },
         ];
 
         return (<Layout

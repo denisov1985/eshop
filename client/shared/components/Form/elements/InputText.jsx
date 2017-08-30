@@ -9,7 +9,7 @@ export default class InputText extends CoreElement {
      * @returns {XML}
      */
     build() {
-        return (<Input onChange={this.onChange} value={this.getValue()}/>);
+        return (<Input {...this.getLoadingProp()} onChange={this.onChange} value={this.getValue()}/>);
     }
 
 
