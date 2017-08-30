@@ -64,4 +64,12 @@ class ActionAbstract
     protected function getActionParams() {
         return $this->resolver->getActionParams();
     }
+
+    protected function getRequest() {
+        return $this->resolver->getRequest();
+    }
+
+    protected function getData() {
+        return $this->resolver->getData();
+    }
 }

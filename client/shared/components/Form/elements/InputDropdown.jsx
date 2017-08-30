@@ -16,6 +16,7 @@ export default class InputDropdown extends CoreElement {
                 key: e.get('id'),
                 text: e.get('name'),
                 value: e.get('id'),
+                data: e
             }
         });
 
@@ -40,11 +41,14 @@ export default class InputDropdown extends CoreElement {
             { key: 'ux', text: 'User Experience', value: 'ux' },
         ];
 
-        return (<Dropdown onChange={this.onDropdownChange} placeholder='Category' fluid multiple selection options={dataOptions.toJS()} />);
+        return (<Dropdown onChange={this.onDropdownChange} placeholder='Category' search fluid multiple selection options={dataOptions.toJS()} />);
     }
 
     onDropdownChange = (event, data) => {
-        console.log(data);
+        const result = this.props.options.filter((e) => {
+            return (data.value.indexOf(e.get('id')) >= 0);
+        });
+        this.updateValue(result);
     }
 
 }

@@ -151,7 +151,7 @@ export default class Textarea extends CoreElement {
             editorStyle={{
                 padding: '0.67857143em 1em',
                 fontSize: '1em',
-                height: 400 + 'px  !important'
+                height: 300 + 'px  !important'
             }}
             editorState={this.state.editorState}
             onChange={this.onTextareaChange}
@@ -161,7 +161,7 @@ export default class Textarea extends CoreElement {
     renderServerSide = () => {
         return (<div style={{
             fontSize: '1em',
-            height: 400 + 'px  !important'
+            height: 300 + 'px  !important'
         }}>{this.getValue()}</div>)
     }
 

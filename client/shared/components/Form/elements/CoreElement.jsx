@@ -4,10 +4,14 @@ import Row from '../Row';
 
 export default class CoreElement extends CoreComponent {
 
-    onChange = (e) => {
+    updateValue = (value) => {
         this.props.provider.actions.update(
-            this.props.provider.data.set(this.props.field, e.target.value)
+            this.props.provider.data.set(this.props.field, value)
         );
+    }
+
+    onChange = (e) => {
+        this.updateValue(e.target.value);
     };
 
     getValue = (props) => {

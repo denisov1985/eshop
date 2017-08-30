@@ -36,10 +36,20 @@ class QueryBuilder
 
     /**
      * Get entity manager
-     * @return EntityManager
+     * @return Orm
      */
     protected function getEntityManager() {
         return $this->getDoctrine()->getManager();
+    }
+
+    public function persist($data)
+    {
+        $this->getEntityManager()->persist($data);
+    }
+
+    public function flush()
+    {
+        $this->getEntityManager()->flush();
     }
 
     /**
@@ -81,7 +91,7 @@ class QueryBuilder
      * @return array
      */
     public function collectAll($entity) {
-        $builder = $this->createBuilder($entity)->setMaxResults(100);
+        $builder = $this->createBuilder($entity)->setMaxResults(40);
         return $builder->getQuery()->getResult();
     }
 

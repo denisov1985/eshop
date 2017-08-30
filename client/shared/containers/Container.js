@@ -143,6 +143,15 @@ class Container extends Component {
             actions: this.props.actions[type]
         }
     }
+
+    /**
+     * Get current details
+     * @param type
+     * @returns {{data: Map, actions}}
+     */
+    getCurrentDetails = (type) => {
+        return this.getDataProvider(this.getParam('id'), type).data;
+    }
 }
 
 export default Container;

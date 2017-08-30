@@ -19,6 +19,7 @@ class ActionResolver
     protected $entityName;
     protected $actionName;
     protected $actionParams;
+    protected $data;
 
     /**
      * ActionResolver constructor.
@@ -34,6 +35,20 @@ class ActionResolver
         $this->entityName   = $this->resolveEntityName();
         $this->actionName   = $this->resolveActionName();
         $this->actionParams = $this->resolveActionParams();
+        $this->data         = $this->resolveData();
+    }
+
+    /**
+     * Resolve submitted data
+     * @return array|mixed
+     */
+    protected function resolveData() {
+        $content = $this->request->getContent();
+        if (!empty($content))
+        {
+            return json_decode($content, true);
+        }
+        return [];
     }
 
     protected function resolveActionParams() {
@@ -125,6 +140,15 @@ class ActionResolver
     {
         return $this->actionParams;
     }
+
+    /**
+     * @return array|mixed
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
 
 
 }

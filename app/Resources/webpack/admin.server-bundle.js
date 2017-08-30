@@ -45926,6 +45926,9 @@ var CrudAction = function (_Action) {
                 collect: function collect(params) {
                     return _this2.getApi().sendGet('collect', {});
                 },
+                save: function save(data) {
+                    return _this2.getApi().sendPost('save', data.toJS());
+                },
                 unset: function unset() {
                     return _this2.createReceiveAction('unset');
                 },
@@ -46017,6 +46020,8 @@ var Container = function (_Component) {
                 data: details,
                 actions: _this.props.actions[type]
             };
+        }, _this.getCurrentDetails = function (type) {
+            return _this.getDataProvider(_this.getParam('id'), type).data;
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -46193,6 +46198,13 @@ var Container = function (_Component) {
          * @returns {{data: Map, actions}}
          */
 
+
+        /**
+         * Get current details
+         * @param type
+         * @returns {{data: Map, actions}}
+         */
+
     }]);
 
     return Container;
@@ -46247,8 +46259,10 @@ var CoreElement = function (_CoreComponent) {
             args[_key] = arguments[_key];
         }
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CoreElement.__proto__ || Object.getPrototypeOf(CoreElement)).call.apply(_ref, [this].concat(args))), _this), _this.onChange = function (e) {
-            _this.props.provider.actions.update(_this.props.provider.data.set(_this.props.field, e.target.value));
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = CoreElement.__proto__ || Object.getPrototypeOf(CoreElement)).call.apply(_ref, [this].concat(args))), _this), _this.updateValue = function (value) {
+            _this.props.provider.actions.update(_this.props.provider.data.set(_this.props.field, value));
+        }, _this.onChange = function (e) {
+            _this.updateValue(e.target.value);
         }, _this.getValue = function (props) {
             if (typeof props === 'undefined') {
                 props = _this.props;
@@ -87571,9 +87585,19 @@ var ProductViewContainer = function (_Container) {
     _inherits(ProductViewContainer, _Container);
 
     function ProductViewContainer() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
         _classCallCheck(this, ProductViewContainer);
 
-        return _possibleConstructorReturn(this, (ProductViewContainer.__proto__ || Object.getPrototypeOf(ProductViewContainer)).apply(this, arguments));
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ProductViewContainer.__proto__ || Object.getPrototypeOf(ProductViewContainer)).call.apply(_ref, [this].concat(args))), _this), _this.onSaveProduct = function () {
+            _this.props.actions.product.save(_this.getCurrentDetails('product'));
+        }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(ProductViewContainer, [{
@@ -87593,6 +87617,7 @@ var ProductViewContainer = function (_Container) {
             console.log('112');
             console.log(this);
             return _react2.default.createElement(_ProductView2.default, {
+                onSaveProduct: this.onSaveProduct,
                 provider: this.getDataProvider(this.getParam('id'), 'product'),
                 container: this
             });
@@ -87681,7 +87706,7 @@ var ProductView = function (_Component) {
                     return _react2.default.createElement(
                         _semanticUiReact.Tab.Pane,
                         null,
-                        _react2.default.createElement(_MainForm2.default, { container: _this2.props.container, provider: _this2.props.provider })
+                        _react2.default.createElement(_MainForm2.default, { onSaveProduct: _this2.props.onSaveProduct, container: _this2.props.container, provider: _this2.props.provider })
                     );
                 } }, { menuItem: 'Tab 2', render: function render() {
                     return _react2.default.createElement(
@@ -87745,6 +87770,8 @@ var _Form = __webpack_require__(1078);
 
 var _Form2 = _interopRequireDefault(_Form);
 
+var _semanticUiReact = __webpack_require__(99);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -87776,12 +87803,42 @@ var MainForm = function (_Component) {
                 'div',
                 null,
                 _react2.default.createElement(
-                    _Form2.default,
-                    { provider: this.props.provider },
-                    _react2.default.createElement(_Form2.default.Input.Text, { title: 'Product name', field: 'name' }),
-                    _react2.default.createElement(_Form2.default.Input.Number, { title: 'Price', field: 'price' }),
-                    _react2.default.createElement(_Form2.default.Input.Dropdown, { options: this.props.container.props.category.get('dataset'), title: 'Category', field: 'category.id' }),
-                    _react2.default.createElement(_Form2.default.Input.Textarea, { title: 'Description', field: 'description' })
+                    _semanticUiReact.Grid,
+                    { columns: 1, divided: true },
+                    _react2.default.createElement(
+                        _semanticUiReact.Grid.Row,
+                        null,
+                        _react2.default.createElement(
+                            _semanticUiReact.Grid.Column,
+                            null,
+                            _react2.default.createElement(
+                                _Form2.default,
+                                { provider: this.props.provider },
+                                _react2.default.createElement(_Form2.default.Input.Text, { title: 'Product name', field: 'name' }),
+                                _react2.default.createElement(_Form2.default.Input.Number, { title: 'Price', field: 'price' }),
+                                _react2.default.createElement(_Form2.default.Input.Dropdown, { options: this.props.container.props.category.get('dataset'), title: 'Category', field: 'categories' }),
+                                _react2.default.createElement(_Form2.default.Input.Textarea, { title: 'Description', field: 'description' })
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _semanticUiReact.Grid.Row,
+                        null,
+                        _react2.default.createElement(
+                            _semanticUiReact.Grid.Column,
+                            null,
+                            _react2.default.createElement(
+                                _semanticUiReact.Button,
+                                { onClick: this.props.onSaveProduct, primary: true },
+                                'Save'
+                            ),
+                            _react2.default.createElement(
+                                _semanticUiReact.Button,
+                                null,
+                                'Cancel'
+                            )
+                        )
+                    )
                 )
             );
         }
@@ -88521,7 +88578,7 @@ var _initialiseProps = function _initialiseProps() {
             editorStyle: {
                 padding: '0.67857143em 1em',
                 fontSize: '1em',
-                height: 400 + 'px  !important'
+                height: 300 + 'px  !important'
             },
             editorState: _this2.state.editorState,
             onChange: _this2.onTextareaChange
@@ -88533,7 +88590,7 @@ var _initialiseProps = function _initialiseProps() {
             'div',
             { style: {
                     fontSize: '1em',
-                    height: 400 + 'px  !important'
+                    height: 300 + 'px  !important'
                 } },
             _this2.getValue()
         );
@@ -99330,7 +99387,10 @@ var InputDropdown = function (_CoreElement) {
         }
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = InputDropdown.__proto__ || Object.getPrototypeOf(InputDropdown)).call.apply(_ref, [this].concat(args))), _this), _this.onDropdownChange = function (event, data) {
-            console.log(data);
+            var result = _this.props.options.filter(function (e) {
+                return data.value.indexOf(e.get('id')) >= 0;
+            });
+            _this.updateValue(result);
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
@@ -99349,13 +99409,14 @@ var InputDropdown = function (_CoreElement) {
                 return {
                     key: e.get('id'),
                     text: e.get('name'),
-                    value: e.get('id')
+                    value: e.get('id'),
+                    data: e
                 };
             });
 
             var options = [{ key: 'angular', text: 'Angular', value: 'angular' }, { key: 'css', text: 'CSS', value: 'css' }, { key: 'design', text: 'Graphic Design', value: 'design' }, { key: 'ember', text: 'Ember', value: 'ember' }, { key: 'html', text: 'HTML', value: 'html' }, { key: 'ia', text: 'Information Architecture', value: 'ia' }, { key: 'javascript', text: 'Javascript', value: 'javascript' }, { key: 'mech', text: 'Mechanical Engineering', value: 'mech' }, { key: 'meteor', text: 'Meteor', value: 'meteor' }, { key: 'node', text: 'NodeJS', value: 'node' }, { key: 'plumbing', text: 'Plumbing', value: 'plumbing' }, { key: 'python', text: 'Python', value: 'python' }, { key: 'rails', text: 'Rails', value: 'rails' }, { key: 'react', text: 'React', value: 'react' }, { key: 'repair', text: 'Kitchen Repair', value: 'repair' }, { key: 'ruby', text: 'Ruby', value: 'ruby' }, { key: 'ui', text: 'UI Design', value: 'ui' }, { key: 'ux', text: 'User Experience', value: 'ux' }];
 
-            return _react2.default.createElement(_semanticUiReact.Dropdown, { onChange: this.onDropdownChange, placeholder: 'Category', fluid: true, multiple: true, selection: true, options: dataOptions.toJS() });
+            return _react2.default.createElement(_semanticUiReact.Dropdown, { onChange: this.onDropdownChange, placeholder: 'Category', search: true, fluid: true, multiple: true, selection: true, options: dataOptions.toJS() });
         }
     }]);
 

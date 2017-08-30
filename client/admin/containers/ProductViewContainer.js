@@ -20,9 +20,16 @@ class ProductViewContainer extends Container {
         console.log('112');
         console.log(this);
         return (<ProductView
+            onSaveProduct={this.onSaveProduct}
             provider={this.getDataProvider(this.getParam('id'), 'product')}
             container={this}
         />);
+    }
+
+    onSaveProduct = () => {
+        this.props.actions.product.save(
+            this.getCurrentDetails('product')
+        );
     }
 
     static mapDispatchToProps = (dispatch) => ({
