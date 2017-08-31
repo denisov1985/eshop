@@ -114747,6 +114747,8 @@ var _CoreElement3 = _interopRequireDefault(_CoreElement2);
 
 var _semanticUiReact = __webpack_require__(75);
 
+var _immutable = __webpack_require__(36);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -114758,20 +114760,36 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var InputImage = function (_CoreElement) {
     _inherits(InputImage, _CoreElement);
 
-    function InputImage() {
-        var _ref;
-
-        var _temp, _this, _ret;
-
+    function InputImage(props) {
         _classCallCheck(this, InputImage);
 
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
+        var _this = _possibleConstructorReturn(this, (InputImage.__proto__ || Object.getPrototypeOf(InputImage)).call(this, props));
 
-        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = InputImage.__proto__ || Object.getPrototypeOf(InputImage)).call.apply(_ref, [this].concat(args))), _this), _this.toggleFileUpload = function () {
+        _this.renderImage = function (src) {
+            return _react2.default.createElement(
+                'div',
+                { style: { borderRadius: 5 + 'px', fontSize: 20 + 'px', backgroundImage: 'url(' + src + ')', backgroundSize: '100% 100%', width: 150 + 'px', height: 150 + 'px' }, className: 'ui rounded bordered image' },
+                _react2.default.createElement(
+                    _semanticUiReact.Dropdown,
+                    { style: { fontSize: 12 + 'px', marginLeft: 112 + 'px', marginTop: 114 + 'px' }, icon: 'content', floating: true, button: true, className: 'icon' },
+                    _react2.default.createElement(
+                        _semanticUiReact.Dropdown.Menu,
+                        null,
+                        _react2.default.createElement(_semanticUiReact.Dropdown.Header, { icon: 'content', content: 'Select action...' }),
+                        _react2.default.createElement(_semanticUiReact.Dropdown.Divider, null),
+                        _react2.default.createElement(_semanticUiReact.Dropdown.Item, { icon: 'eye', text: 'View image' }),
+                        _react2.default.createElement(_semanticUiReact.Dropdown.Item, { icon: 'cloud upload', text: 'Upload' }),
+                        _react2.default.createElement(_semanticUiReact.Dropdown.Item, { icon: 'trash', text: 'Delete' })
+                    )
+                )
+            );
+        };
+
+        _this.toggleFileUpload = function () {
             _this.refs.file.click();
-        }, _this.handleFile = function (e) {
+        };
+
+        _this.handleFile = function (e) {
             var reader = new FileReader();
             var file = e.target.files[0];
 
@@ -114784,28 +114802,36 @@ var InputImage = function (_CoreElement) {
                 });*/
 
                 _this.setState({
-                    data_uri: upload.target.result,
-                    filename: file.name,
-                    filetype: file.type
-                    //id: this.props.form.props.provider.getIn(['dataset', 'id'])
+                    images: _this.state.images.push((0, _immutable.fromJS)({
+                        data_uri: upload.target.result,
+                        filename: file.name,
+                        filetype: file.type
+                    }))
                 }, function () {
                     console.log(_this);
                 });
             };
 
             reader.readAsDataURL(file);
-        }, _temp), _possibleConstructorReturn(_this, _ret);
+        };
+
+        _this.state = {
+            images: new _immutable.List([])
+        };
+        return _this;
     }
+
+    /**
+     * Render dimmer
+     * @returns {XML}
+     */
+
 
     _createClass(InputImage, [{
         key: 'build',
-
-
-        /**
-         * Render dimmer
-         * @returns {XML}
-         */
         value: function build() {
+            var _this2 = this;
+
             var src = 'https://react.semantic-ui.com/assets/images/wireframe/image.png';
             var srcUpload = '/img/upload_image.jpg';
             return _react2.default.createElement(
@@ -114814,10 +114840,14 @@ var InputImage = function (_CoreElement) {
                 _react2.default.createElement(
                     _semanticUiReact.Image.Group,
                     null,
-                    _react2.default.createElement(_semanticUiReact.Image, { style: { borderRadius: 5 + 'px' }, height: '150', width: '150', bordered: true, shape: 'rounded', src: src }),
-                    _react2.default.createElement(_semanticUiReact.Image, { style: { borderRadius: 5 + 'px' }, height: '150', width: '150', bordered: true, shape: 'rounded', src: src }),
-                    _react2.default.createElement(_semanticUiReact.Image, { style: { borderRadius: 5 + 'px' }, height: '150', width: '150', bordered: true, shape: 'rounded', src: src }),
-                    _react2.default.createElement(_semanticUiReact.Image, { style: { borderRadius: 5 + 'px' }, height: '150', width: '150', bordered: true, shape: 'rounded', src: src }),
+                    this.renderImage(src),
+                    this.renderImage(src),
+                    this.renderImage(src),
+                    this.renderImage(src),
+                    this.renderImage(src),
+                    this.state.images.map(function (e) {
+                        return _this2.renderImage(e.get('data_uri'));
+                    }),
                     _react2.default.createElement(_semanticUiReact.Image, { onClick: this.toggleFileUpload, style: { borderRadius: 5 + 'px', cursor: 'pointer' }, height: '150', width: '150', bordered: true, shape: 'rounded', src: srcUpload })
                 ),
                 _react2.default.createElement(
