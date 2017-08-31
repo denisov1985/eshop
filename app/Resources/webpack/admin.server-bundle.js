@@ -114759,9 +114759,42 @@ var InputImage = function (_CoreElement) {
     _inherits(InputImage, _CoreElement);
 
     function InputImage() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
         _classCallCheck(this, InputImage);
 
-        return _possibleConstructorReturn(this, (InputImage.__proto__ || Object.getPrototypeOf(InputImage)).apply(this, arguments));
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = InputImage.__proto__ || Object.getPrototypeOf(InputImage)).call.apply(_ref, [this].concat(args))), _this), _this.toggleFileUpload = function () {
+            _this.refs.file.click();
+        }, _this.handleFile = function (e) {
+            var reader = new FileReader();
+            var file = e.target.files[0];
+
+            reader.onload = function (upload) {
+                /*this.props.form.props.upload({
+                    data_uri: upload.target.result,
+                    filename: file.name,
+                    filetype: file.type,
+                    id: this.props.form.props.provider.getIn(['dataset', 'id'])
+                });*/
+
+                _this.setState({
+                    data_uri: upload.target.result,
+                    filename: file.name,
+                    filetype: file.type
+                    //id: this.props.form.props.provider.getIn(['dataset', 'id'])
+                }, function () {
+                    console.log(_this);
+                });
+            };
+
+            reader.readAsDataURL(file);
+        }, _temp), _possibleConstructorReturn(_this, _ret);
     }
 
     _createClass(InputImage, [{
@@ -114774,20 +114807,23 @@ var InputImage = function (_CoreElement) {
          */
         value: function build() {
             var src = 'https://react.semantic-ui.com/assets/images/wireframe/image.png';
+            var srcUpload = '/img/upload_image.jpg';
             return _react2.default.createElement(
                 'div',
                 null,
                 _react2.default.createElement(
                     _semanticUiReact.Image.Group,
-                    { size: 'small' },
-                    _react2.default.createElement(_semanticUiReact.Image, { src: src }),
-                    _react2.default.createElement(_semanticUiReact.Image, { src: src }),
-                    _react2.default.createElement(_semanticUiReact.Image, { src: src }),
-                    _react2.default.createElement(_semanticUiReact.Image, { src: src }),
-                    _react2.default.createElement(_semanticUiReact.Image, { src: src }),
-                    _react2.default.createElement(_semanticUiReact.Image, { src: src }),
-                    _react2.default.createElement(_semanticUiReact.Image, { src: src }),
-                    _react2.default.createElement(_semanticUiReact.Image, { src: src })
+                    null,
+                    _react2.default.createElement(_semanticUiReact.Image, { style: { borderRadius: 5 + 'px' }, height: '150', width: '150', bordered: true, shape: 'rounded', src: src }),
+                    _react2.default.createElement(_semanticUiReact.Image, { style: { borderRadius: 5 + 'px' }, height: '150', width: '150', bordered: true, shape: 'rounded', src: src }),
+                    _react2.default.createElement(_semanticUiReact.Image, { style: { borderRadius: 5 + 'px' }, height: '150', width: '150', bordered: true, shape: 'rounded', src: src }),
+                    _react2.default.createElement(_semanticUiReact.Image, { style: { borderRadius: 5 + 'px' }, height: '150', width: '150', bordered: true, shape: 'rounded', src: src }),
+                    _react2.default.createElement(_semanticUiReact.Image, { onClick: this.toggleFileUpload, style: { borderRadius: 5 + 'px', cursor: 'pointer' }, height: '150', width: '150', bordered: true, shape: 'rounded', src: srcUpload })
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { style: { display: 'none' } },
+                    _react2.default.createElement('input', { onChange: this.handleFile, ref: 'file', type: 'file' })
                 )
             );
         }
