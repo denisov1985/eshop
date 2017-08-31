@@ -99799,6 +99799,10 @@ var _MainForm2 = _interopRequireDefault(_MainForm);
 
 var _semanticUiReact = __webpack_require__(75);
 
+var _Preload = __webpack_require__(1230);
+
+var _Preload2 = _interopRequireDefault(_Preload);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -99831,7 +99835,11 @@ var ProductView = function (_Component) {
                     return _react2.default.createElement(
                         _semanticUiReact.Tab.Pane,
                         null,
-                        _react2.default.createElement(_MainForm2.default, { onSaveProduct: _this2.props.onSaveProduct, container: _this2.props.container, provider: _this2.props.provider })
+                        _react2.default.createElement(
+                            _Preload2.default,
+                            null,
+                            _react2.default.createElement(_MainForm2.default, { onSaveProduct: _this2.props.onSaveProduct, container: _this2.props.container, provider: _this2.props.provider })
+                        )
                     );
                 } }, { menuItem: 'Attributes', render: function render() {
                     return _react2.default.createElement(
@@ -114596,6 +114604,103 @@ var FormButton = function (_CoreElement) {
 }(_CoreElement3.default);
 
 exports.default = FormButton;
+
+/***/ }),
+/* 1230 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _CoreComponent2 = __webpack_require__(46);
+
+var _CoreComponent3 = _interopRequireDefault(_CoreComponent2);
+
+var _semanticUiReact = __webpack_require__(75);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Preload = function (_CoreComponent) {
+    _inherits(Preload, _CoreComponent);
+
+    function Preload(props) {
+        _classCallCheck(this, Preload);
+
+        var _this = _possibleConstructorReturn(this, (Preload.__proto__ || Object.getPrototypeOf(Preload)).call(this, props));
+
+        _this.renderDimmer = function () {
+            return _react2.default.createElement(
+                _semanticUiReact.Dimmer.Dimmable,
+                { as: _semanticUiReact.Segment, dimmed: true },
+                _react2.default.createElement(
+                    _semanticUiReact.Dimmer,
+                    { active: true, inverted: true },
+                    _react2.default.createElement(
+                        _semanticUiReact.Loader,
+                        null,
+                        'Loading'
+                    )
+                ),
+                _react2.default.createElement('div', { style: { height: 500 + 'px' } })
+            );
+        };
+
+        _this.state = {
+            loaded: false
+        };
+        return _this;
+    }
+
+    _createClass(Preload, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            console.log('Mount');
+            setTimeout(function () {
+                _this2.setState({
+                    loaded: true
+                });
+            }, 20);
+        }
+
+        /**
+         * Render dimmer
+         * @returns {XML}
+         */
+
+    }, {
+        key: 'render',
+        value: function render() {
+            return this.state.loaded ? this.renderChildren() : this.renderDimmer();
+        }
+    }, {
+        key: 'renderChildren',
+        value: function renderChildren() {
+            return this.props.children;
+        }
+    }]);
+
+    return Preload;
+}(_CoreComponent3.default);
+
+exports.default = Preload;
 
 /***/ })
 /******/ ]);

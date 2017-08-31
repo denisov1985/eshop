@@ -3,6 +3,7 @@ import Layout from '../Layout/Layout';
 import DataTable from 'shared/components/DataTable/DataTable';
 import MainForm from './forms/MainForm';
 import { Button, Divider, Grid, Tab } from 'semantic-ui-react'
+import Preload from 'shared/components/Preload/Preload';
 
 export default class ProductView extends Component {
 
@@ -12,7 +13,11 @@ export default class ProductView extends Component {
      */
     render() {
         const panes = [
-            { menuItem: 'Information', render: () => <Tab.Pane><MainForm onSaveProduct={this.props.onSaveProduct} container={this.props.container} provider={this.props.provider}/></Tab.Pane> },
+            { menuItem: 'Information', render: () => <Tab.Pane>
+                <Preload>
+                    <MainForm onSaveProduct={this.props.onSaveProduct} container={this.props.container} provider={this.props.provider}/>
+                </Preload>
+            </Tab.Pane> },
             { menuItem: 'Attributes', render: () => <Tab.Pane>Under construction</Tab.Pane> },
             { menuItem: 'Inventory tracking', render: () => <Tab.Pane>Under construction</Tab.Pane> },
             { menuItem: 'Related products', render: () => <Tab.Pane>Under construction</Tab.Pane> },
