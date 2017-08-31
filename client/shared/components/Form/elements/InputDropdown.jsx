@@ -10,8 +10,6 @@ export default class InputDropdown extends CoreElement {
      * @returns {XML}
      */
     build() {
-        console.log(this);
-
         let dataOptions = this.props.options.map((e) => {
             return {
                 key: e.get('id'),
@@ -42,15 +40,11 @@ export default class InputDropdown extends CoreElement {
             { key: 'ux', text: 'User Experience', value: 'ux' },
         ];
 
-        console.log(this.getValue());
-
         const val = this.getValue() ? this.getValue() : new List([]);
 
         const values = val.map((e) => {
             return e.get('id');
         }).toJS();
-
-        console.log(values);
 
         return (<Dropdown value={values} onChange={this.onDropdownChange} placeholder='Category' search fluid multiple selection options={dataOptions.toJS()} />);
     }

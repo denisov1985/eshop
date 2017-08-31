@@ -7,7 +7,6 @@ import CollectionAction from 'shared/actions/CrudAction';
 class DashboardContainer extends Component {
 
     onClick = () => {
-        console.log(this);
         this.props.actions.product.getLocal();
     }
 

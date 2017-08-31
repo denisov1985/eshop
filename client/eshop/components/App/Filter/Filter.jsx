@@ -11,8 +11,6 @@ const Filter = ({filterExpanded, onToggleFilter}) => {
         filterClass2 += ' column-open';
     }
 
-    console.log(filterExpanded);
-
     return (
         <div id="leftColumn" className="col-md-4 col-lg-3 col-xl-2">
             <div className={filterClass1}>

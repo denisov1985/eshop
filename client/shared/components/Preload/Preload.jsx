@@ -6,13 +6,25 @@ export default class Preload extends CoreComponent {
 
     constructor(props) {
         super(props);
+        let loaded = false;
+        console.log('construct new');
+        if (typeof window === 'undefined') {
+            loaded = true;
+        }   else  {
+            if (window.server) {
+                loaded = true;
+                window.server = false;
+            }
+        }
         this.state = {
-            loaded: false,
+            loaded: loaded,
         }
     }
 
     componentDidMount() {
-        console.log('Mount');
+        if (this.state.loaded) {
+            return true;
+        }
         setTimeout(() => {
             this.setState({
                 loaded: true

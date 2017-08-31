@@ -15,11 +15,12 @@ export default class CoreElement extends CoreComponent {
         this.updateValue(e.target.value);
     };
 
-    getValue = (props) => {
+    getValue = (props, defaultValue) => {
         if (typeof props === 'undefined') {
             props = this.props;
         }
-        return props.provider.data.get(this.props.field);
+        console.log(props.provider);
+        return props.provider.data.get(this.props.field, defaultValue);
     };
 
     isLoading = () => {

@@ -15,7 +15,6 @@ export default class Filter extends Component {
     }
 
     onToggle = () => {
-        console.log('toggle');
         const visible = !this.state.context.get('visible', false);
         this.setState({
             context: this.state.context.set('visible', visible)

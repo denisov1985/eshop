@@ -5,6 +5,7 @@ import InputText from './elements/InputText'
 import InputNumber from './elements/InputNumber'
 import Textarea from './elements/Textarea'
 import InputDropdown from './elements/InputDropdown'
+import InputImage from './elements/InputImage'
 import FormButton from './elements/FormButton'
 import { Message, Transition } from 'semantic-ui-react'
 
@@ -19,7 +20,6 @@ export default class Form extends CoreComponent {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('Next props');
         const prevStatus = this.props.provider.context.get('status', 0);
         const nextStatus = nextProps.provider.context.get('status', 0);
         if (prevStatus === 1 && nextStatus === 2) {
@@ -61,6 +61,7 @@ Form.Button = FormButton;
 
 Form.Input = {
     Text: InputText,
+    Image: InputImage,
     Number: InputNumber,
     Textarea: Textarea,
     Dropdown: InputDropdown,

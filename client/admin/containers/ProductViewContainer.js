@@ -10,6 +10,7 @@ class ProductViewContainer extends Container {
 
     componentWillMount() {
         this.initFromProviderById(this.getParam('id'), 'product');
+
     }
 
     /**
@@ -17,7 +18,6 @@ class ProductViewContainer extends Container {
      * @returns {XML}
      */
     render() {
-        console.log('112');
         console.log(this);
         return (<ProductView
             onSaveProduct={this.onSaveProduct}
@@ -37,7 +37,6 @@ class ProductViewContainer extends Container {
     })
 
     static mapStateToProps = (state, ownProps) => {
-        console.log(state);
         return {
             product: state.product,
             category: state.category

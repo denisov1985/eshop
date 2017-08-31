@@ -9,7 +9,6 @@ export default class MainForm extends Component {
      * @returns {XML}
      */
     render() {
-        console.log(this);
         return (<div>
             <Grid columns={1} divided>
                 <Grid.Row>
@@ -17,6 +16,7 @@ export default class MainForm extends Component {
                         <h2>Product details</h2>
                         <Form provider={this.props.provider}>
                             <Form.Input.Text title="Product name" field="name" />
+                            <Form.Input.Image title="Images" field="images" />
                             <Form.Input.Number title="Price" field="price" />
                             <Form.Input.Dropdown options={this.props.container.props.category.get('dataset')} title="Category" field="categories" />
                             <Form.Input.Textarea title="Description" field="description" />

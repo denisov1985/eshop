@@ -28,8 +28,6 @@ class ProductsContainer extends Container {
      * @returns {XML}
      */
     render() {
-        console.log(this);
-        console.log(this.getStatus());
         return (<Products
             status={this.getStatus()}
             container={this}

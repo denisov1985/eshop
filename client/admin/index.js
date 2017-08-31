@@ -1,3 +1,7 @@
+if (typeof window !== 'undefined') {
+    window.server = true;
+}
+
 import ReactOnRails from 'react-on-rails';
 import rootReducer from './reducers/Root';
 import { createStore, applyMiddleware  } from 'redux';

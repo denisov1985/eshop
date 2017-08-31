@@ -32458,11 +32458,12 @@ var CoreElement = function (_CoreComponent) {
             _this.props.provider.actions.update(_this.props.provider.data.set(_this.props.field, value));
         }, _this.onChange = function (e) {
             _this.updateValue(e.target.value);
-        }, _this.getValue = function (props) {
+        }, _this.getValue = function (props, defaultValue) {
             if (typeof props === 'undefined') {
                 props = _this.props;
             }
-            return props.provider.data.get(_this.props.field);
+            console.log(props.provider);
+            return props.provider.data.get(_this.props.field, defaultValue);
         }, _this.isLoading = function () {
             if (typeof _this.props.provider.context === 'undefined') {
                 return 0;
@@ -49651,15 +49652,14 @@ var Container = function (_Component) {
             var details = _this.getById(id, _this.props[type].get('details', (0, _immutable.fromJS)({})));
             if (details.size === 0) {
                 var selected = _this.getById(id, _this.props[type].get('dataset', (0, _immutable.fromJS)([])));
+                console.log('SELECTED');
+                console.log(selected);
                 _this.props.actions[type].select(selected);
             }
         }, _this.getParam = function (paramName) {
             return _this.props.match.params[paramName];
         }, _this.getDataProvider = function (id, type) {
             var details = _this.getById(id, _this.props[type].get('details', (0, _immutable.fromJS)({})));
-            console.log('test1');
-            console.log(id);
-            console.log(_this.props[type]);
             var context = _this.props[type].getIn(['context', parseInt(id, 10)], (0, _immutable.fromJS)({}));
             return {
                 data: details,
@@ -74299,6 +74299,10 @@ var _AdminStore2 = _interopRequireDefault(_AdminStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+if (typeof window !== 'undefined') {
+    window.server = true;
+}
+
 var store = _AdminStore2.default;
 
 _reactOnRails2.default.registerStore({ store: store });
@@ -75608,7 +75612,6 @@ var DashboardContainer = function (_Component) {
         }
 
         return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = DashboardContainer.__proto__ || Object.getPrototypeOf(DashboardContainer)).call.apply(_ref, [this].concat(args))), _this), _this.onClick = function () {
-            console.log(_this);
             _this.props.actions.product.getLocal();
         }, _temp), _possibleConstructorReturn(_this, _ret);
     }
@@ -98345,8 +98348,6 @@ var ProductsContainer = function (_Container) {
          * @returns {XML}
          */
         value: function render() {
-            console.log(this);
-            console.log(this.getStatus());
             return _react2.default.createElement(_Products2.default, {
                 status: this.getStatus(),
                 container: this,
@@ -99589,7 +99590,6 @@ var InDevelopmentContainer = function (_Container) {
          * @returns {XML}
          */
         value: function render() {
-            console.log(this.props);
             return _react2.default.createElement(_InDevelopment2.default, null);
         }
     }]);
@@ -99739,7 +99739,6 @@ var ProductViewContainer = function (_Container) {
     }, {
         key: 'render',
         value: function render() {
-            console.log('112');
             console.log(this);
             return _react2.default.createElement(_ProductView2.default, {
                 onSaveProduct: this.onSaveProduct,
@@ -99759,7 +99758,6 @@ ProductViewContainer.mapDispatchToProps = function (dispatch) {
 };
 
 ProductViewContainer.mapStateToProps = function (state, ownProps) {
-    console.log(state);
     return {
         product: state.product,
         category: state.category
@@ -99961,7 +99959,6 @@ var MainForm = function (_Component) {
          * @returns {XML}
          */
         value: function render() {
-            console.log(this);
             return _react2.default.createElement(
                 'div',
                 null,
@@ -99983,6 +99980,7 @@ var MainForm = function (_Component) {
                                 _Form2.default,
                                 { provider: this.props.provider },
                                 _react2.default.createElement(_Form2.default.Input.Text, { title: 'Product name', field: 'name' }),
+                                _react2.default.createElement(_Form2.default.Input.Image, { title: 'Images', field: 'images' }),
                                 _react2.default.createElement(_Form2.default.Input.Number, { title: 'Price', field: 'price' }),
                                 _react2.default.createElement(_Form2.default.Input.Dropdown, { options: this.props.container.props.category.get('dataset'), title: 'Category', field: 'categories' }),
                                 _react2.default.createElement(_Form2.default.Input.Textarea, { title: 'Description', field: 'description' })
@@ -100054,6 +100052,10 @@ var _InputDropdown = __webpack_require__(1225);
 
 var _InputDropdown2 = _interopRequireDefault(_InputDropdown);
 
+var _InputImage = __webpack_require__(1231);
+
+var _InputImage2 = _interopRequireDefault(_InputImage);
+
 var _FormButton = __webpack_require__(1229);
 
 var _FormButton2 = _interopRequireDefault(_FormButton);
@@ -100088,7 +100090,6 @@ var Form = function (_CoreComponent) {
         value: function componentWillReceiveProps(nextProps) {
             var _this2 = this;
 
-            console.log('Next props');
             var prevStatus = this.props.provider.context.get('status', 0);
             var nextStatus = nextProps.provider.context.get('status', 0);
             if (prevStatus === 1 && nextStatus === 2) {
@@ -100149,6 +100150,7 @@ Form.Button = _FormButton2.default;
 
 Form.Input = {
     Text: _InputText2.default,
+    Image: _InputImage2.default,
     Number: _InputNumber2.default,
     Textarea: _Textarea2.default,
     Dropdown: _InputDropdown2.default
@@ -100633,7 +100635,11 @@ var Textarea = function (_CoreElement) {
         _initialiseProps.call(_this);
 
         _this.state = {
-            editorState: _this.getEditorStateFromProps(props)
+            editorState: _this.getEditorStateFromProps(props),
+            loaded: false
+        };
+        _this.setDomEditorRef = function (ref) {
+            return _this.domEditor = ref;
         };
         return _this;
     }
@@ -100641,8 +100647,6 @@ var Textarea = function (_CoreElement) {
     _createClass(Textarea, [{
         key: 'componentWillReceiveProps',
         value: function componentWillReceiveProps(nextProps) {
-            console.log('next props');
-            console.log(nextProps);
             this.onTextareaChange(this.getEditorStateFromProps(nextProps));
         }
     }, {
@@ -100758,9 +100762,10 @@ var Textarea = function (_CoreElement) {
                             borderRadius: '.28571429rem',
                             marginTop: 8 + 'px',
                             padding: 4 + 'px',
-                            overflowY: 'auto'
+                            overflowY: 'auto',
+                            height: 324 + 'px'
                         } },
-                    this.isServer() ? this.renderServerSide() : this.renderEditor()
+                    this.state.loaded ? this.renderEditor() : this.renderServerSide()
                 )
             );
         }
@@ -100810,8 +100815,9 @@ var _initialiseProps = function _initialiseProps() {
         return _react2.default.createElement(_draftJs.Editor, {
             editorStyle: {
                 fontSize: '1em',
-                height: 300 + 'px  !important'
+                height: 100 + '%'
             },
+            ref: _this2.setDomEditorRef,
             editorState: _this2.state.editorState,
             onChange: _this2.onTextareaChange,
             onBlur: _this2.onBlur
@@ -100819,13 +100825,20 @@ var _initialiseProps = function _initialiseProps() {
     };
 
     this.renderServerSide = function () {
+        console.log('VALUE');
+        console.log(_this2.getValue(_this2.props, ''));
         return _react2.default.createElement(
             'div',
-            { style: {
+            { onClick: function onClick() {
+                    _this2.setState({ loaded: true }, function () {
+                        console.log('LOADED');
+                        _this2.domEditor.focus();
+                    });
+                }, style: {
                     fontSize: '1em',
-                    height: 300 + 'px  !important'
+                    height: 100 + '%'
                 } },
-            (0, _reactRenderHtml2.default)(_this2.getValue())
+            (0, _reactRenderHtml2.default)(_this2.getValue(_this2.props, ''))
         );
     };
 };
@@ -114293,8 +114306,6 @@ var InputDropdown = function (_CoreElement) {
          * @returns {XML}
          */
         value: function build() {
-            console.log(this);
-
             var dataOptions = this.props.options.map(function (e) {
                 return {
                     key: e.get('id'),
@@ -114306,15 +114317,11 @@ var InputDropdown = function (_CoreElement) {
 
             var options = [{ key: 'angular', text: 'Angular', value: 'angular' }, { key: 'css', text: 'CSS', value: 'css' }, { key: 'design', text: 'Graphic Design', value: 'design' }, { key: 'ember', text: 'Ember', value: 'ember' }, { key: 'html', text: 'HTML', value: 'html' }, { key: 'ia', text: 'Information Architecture', value: 'ia' }, { key: 'javascript', text: 'Javascript', value: 'javascript' }, { key: 'mech', text: 'Mechanical Engineering', value: 'mech' }, { key: 'meteor', text: 'Meteor', value: 'meteor' }, { key: 'node', text: 'NodeJS', value: 'node' }, { key: 'plumbing', text: 'Plumbing', value: 'plumbing' }, { key: 'python', text: 'Python', value: 'python' }, { key: 'rails', text: 'Rails', value: 'rails' }, { key: 'react', text: 'React', value: 'react' }, { key: 'repair', text: 'Kitchen Repair', value: 'repair' }, { key: 'ruby', text: 'Ruby', value: 'ruby' }, { key: 'ui', text: 'UI Design', value: 'ui' }, { key: 'ux', text: 'User Experience', value: 'ux' }];
 
-            console.log(this.getValue());
-
             var val = this.getValue() ? this.getValue() : new _immutable.List([]);
 
             var values = val.map(function (e) {
                 return e.get('id');
             }).toJS();
-
-            console.log(values);
 
             return _react2.default.createElement(_semanticUiReact.Dropdown, { value: values, onChange: this.onDropdownChange, placeholder: 'Category', search: true, fluid: true, multiple: true, selection: true, options: dataOptions.toJS() });
         }
@@ -114421,10 +114428,6 @@ var ReducerFactory = function () {
                 var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
                 var action = arguments[1];
 
-                console.log(action);
-                if (typeof console.trace === 'function') {
-                    console.trace();
-                }
                 if (handlers.hasOwnProperty(action.type)) {
                     return handlers[action.type](state, action);
                 } else {
@@ -114515,7 +114518,10 @@ var DetailsReducer = function (_Reducer) {
             });
 
             this.onReceiveAction('select', function (state, action) {
-                return state.set('details', state.get('details', (0, _immutable.fromJS)([])).push(action.payload)).set('status', _this2.statusComplete());
+                var newState = state.set('details', state.get('details', (0, _immutable.fromJS)([])).push(action.payload)).setIn(['context', action.payload.get('id'), 'status'], _this2.statusComplete());
+                console.log('new state');
+                console.log(newState);
+                return newState;
             });
 
             this.onReceiveAction('update', function (state, action) {
@@ -114570,6 +114576,8 @@ var _semanticUiReact = __webpack_require__(75);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -114594,9 +114602,11 @@ var FormButton = function (_CoreElement) {
          * @returns {XML}
          */
         value: function render() {
-            console.log('IS LOADING');
-            console.log(this.getLoadingProp());
-            return _react2.default.createElement(_semanticUiReact.Button, _extends({}, this.props, this.getLoadingProp()));
+            var _props = this.props,
+                provider = _props.provider,
+                props = _objectWithoutProperties(_props, ['provider']);
+
+            return _react2.default.createElement(_semanticUiReact.Button, _extends({}, props, this.getLoadingProp()));
         }
     }]);
 
@@ -114661,8 +114671,18 @@ var Preload = function (_CoreComponent) {
             );
         };
 
+        var loaded = false;
+        console.log('construct new');
+        if (typeof window === 'undefined') {
+            loaded = true;
+        } else {
+            if (window.server) {
+                loaded = true;
+                window.server = false;
+            }
+        }
         _this.state = {
-            loaded: false
+            loaded: loaded
         };
         return _this;
     }
@@ -114672,7 +114692,9 @@ var Preload = function (_CoreComponent) {
         value: function componentDidMount() {
             var _this2 = this;
 
-            console.log('Mount');
+            if (this.state.loaded) {
+                return true;
+            }
             setTimeout(function () {
                 _this2.setState({
                     loaded: true
@@ -114701,6 +114723,80 @@ var Preload = function (_CoreComponent) {
 }(_CoreComponent3.default);
 
 exports.default = Preload;
+
+/***/ }),
+/* 1231 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _CoreElement2 = __webpack_require__(287);
+
+var _CoreElement3 = _interopRequireDefault(_CoreElement2);
+
+var _semanticUiReact = __webpack_require__(75);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var InputImage = function (_CoreElement) {
+    _inherits(InputImage, _CoreElement);
+
+    function InputImage() {
+        _classCallCheck(this, InputImage);
+
+        return _possibleConstructorReturn(this, (InputImage.__proto__ || Object.getPrototypeOf(InputImage)).apply(this, arguments));
+    }
+
+    _createClass(InputImage, [{
+        key: 'build',
+
+
+        /**
+         * Render dimmer
+         * @returns {XML}
+         */
+        value: function build() {
+            var src = 'https://react.semantic-ui.com/assets/images/wireframe/image.png';
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    _semanticUiReact.Image.Group,
+                    { size: 'small' },
+                    _react2.default.createElement(_semanticUiReact.Image, { src: src }),
+                    _react2.default.createElement(_semanticUiReact.Image, { src: src }),
+                    _react2.default.createElement(_semanticUiReact.Image, { src: src }),
+                    _react2.default.createElement(_semanticUiReact.Image, { src: src }),
+                    _react2.default.createElement(_semanticUiReact.Image, { src: src }),
+                    _react2.default.createElement(_semanticUiReact.Image, { src: src }),
+                    _react2.default.createElement(_semanticUiReact.Image, { src: src }),
+                    _react2.default.createElement(_semanticUiReact.Image, { src: src })
+                )
+            );
+        }
+    }]);
+
+    return InputImage;
+}(_CoreElement3.default);
+
+exports.default = InputImage;
 
 /***/ })
 /******/ ]);

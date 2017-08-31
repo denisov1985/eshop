@@ -13,8 +13,11 @@ class DetailsReducer extends Reducer
         })
 
         this.onReceiveAction('select', (state, action) => {
-            return state.set('details', state.get('details', fromJS([])).push(action.payload))
-                .set('status', this.statusComplete());
+            const newState = state.set('details', state.get('details', fromJS([])).push(action.payload))
+                .setIn(['context', action.payload.get('id'), 'status'], this.statusComplete());
+            console.log('new state');
+            console.log(newState);
+            return newState;
         })
 
         this.onReceiveAction('update', (state, action) => {

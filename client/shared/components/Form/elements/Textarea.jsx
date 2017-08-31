@@ -11,13 +11,13 @@ export default class Textarea extends CoreElement {
     constructor(props) {
         super(props);
         this.state = {
-            editorState: this.getEditorStateFromProps(props)
+            editorState: this.getEditorStateFromProps(props),
+            loaded: false
         };
+        this.setDomEditorRef = ref => this.domEditor = ref;
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('next props');
-        console.log(nextProps);
         this.onTextareaChange(this.getEditorStateFromProps(nextProps));
     }
 
@@ -151,9 +151,10 @@ export default class Textarea extends CoreElement {
                 borderRadius: '.28571429rem',
                 marginTop: 8 + 'px',
                 padding: 4 + 'px',
-                overflowY: 'auto'
+                overflowY: 'auto',
+                height: 324 + 'px'
             }}>
-                {this.isServer() ? this.renderServerSide() : this.renderEditor()}
+                {this.state.loaded ? this.renderEditor() : this.renderServerSide()}
             </div></div>);
     }
 
@@ -161,8 +162,9 @@ export default class Textarea extends CoreElement {
         return (<Editor
             editorStyle={{
                 fontSize: '1em',
-                height: 300 + 'px  !important'
+                height: 100 + '%'
             }}
+            ref={this.setDomEditorRef}
             editorState={this.state.editorState}
             onChange={this.onTextareaChange}
             onBlur={this.onBlur}
@@ -170,10 +172,17 @@ export default class Textarea extends CoreElement {
     };
 
     renderServerSide = () => {
-        return (<div style={{
+        console.log('VALUE');
+        console.log(this.getValue(this.props, ''));
+        return (<div onClick={() => {
+            this.setState({loaded: true}, () => {
+                console.log('LOADED');
+                this.domEditor.focus();
+            })
+        }} style={{
             fontSize: '1em',
-            height: 300 + 'px  !important'
-        }}>{renderHTML(this.getValue())}</div>)
+            height: 100 + '%'
+        }}>{renderHTML(this.getValue(this.props, ''))}</div>)
     }
 
 }

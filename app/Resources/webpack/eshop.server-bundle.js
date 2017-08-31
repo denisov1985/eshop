@@ -35382,8 +35382,6 @@ var Filter = function Filter(_ref) {
         filterClass2 += ' column-open';
     }
 
-    console.log(filterExpanded);
-
     return _react2.default.createElement(
         'div',
         { id: 'leftColumn', className: 'col-md-4 col-lg-3 col-xl-2' },
@@ -35544,7 +35542,6 @@ var Filter = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Filter.__proto__ || Object.getPrototypeOf(Filter)).call(this, props));
 
         _this.onToggle = function () {
-            console.log('toggle');
             var visible = !_this.state.context.get('visible', false);
             _this.setState({
                 context: _this.state.context.set('visible', visible)

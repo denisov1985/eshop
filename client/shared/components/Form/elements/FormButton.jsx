@@ -9,9 +9,8 @@ export default class FormButton extends CoreElement {
      * @returns {XML}
      */
     render() {
-        console.log('IS LOADING')
-        console.log(this.getLoadingProp())
-        return (<Button {...this.props} {...this.getLoadingProp()} />);
+        let {provider, ...props} = this.props;
+        return (<Button {...props} {...this.getLoadingProp()} />);
     }
 
 
