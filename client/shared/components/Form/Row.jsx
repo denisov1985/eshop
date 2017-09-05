@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import CoreComponent from '../core/CoreComponent';
+import CoreComponent from '../Core/CoreComponent';
 
 export default class Row extends CoreComponent {
 

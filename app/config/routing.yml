@@ -3,6 +3,11 @@ admin_domain:
     host: admin.denysov.net
     prefix: /
 
+admin_domain_loc:
+    resource: "@AdminBundle/Resources/config/routing.yml"
+    host: admin.denysov.loc
+    prefix: /
+
 shop_domain:
     resource: "@ShopBundle/Resources/config/routing.yml"
     host: denysov.net     

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { fromJS, Map, List } from 'immutable';
-import CoreComponent from '../core/CoreComponent';
+import CoreComponent from '../Core/CoreComponent';
 import InputText from './elements/InputText';
 import Dropdown from './elements/dropdown/Dropdown';
 import InputIconText from './elements/InputIconText';

@@ -6,6 +6,7 @@ use AdminBundle\Webpack;
 use ApiBundle\Services\Api\ActionResolver;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class DefaultController extends Controller
@@ -47,10 +48,15 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->getResponse([
-            'product'  => $this->getCollectionParams(),
-            'category' => $this->getCollectionAllParams()
-        ], $request);
+        try {
+            $response = $this->getResponse([
+                'product'  => $this->getCollectionParams(),
+                'category' => $this->getCollectionAllParams()
+            ], $request);
+        } catch (\Exception $e) {
+            $response = new Response($e->getMessage() . '<br>' . '<br>' . '<br>' . $e->getTraceAsString());
+        }
+        return $response;
     }
 
     public function getCollectionParams()

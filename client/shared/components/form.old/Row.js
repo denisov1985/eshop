@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import CoreComponent from '../core/CoreComponent';
+import CoreComponent from '../Core/CoreComponent';
 import Loader from '../loader/Loader';
 import InputText from './elements/InputText';
 
