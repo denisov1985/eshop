@@ -17,16 +17,21 @@ export default class InputImage extends CoreElement {
      * @returns {XML}
      */
     build() {
+        const value = this.getValue();
+        console.log('VALUE');
+        console.log(value);
+
         const context = this.props.provider.context.get('upload', new List([]));
         const src = 'https://react.semantic-ui.com/assets/images/wireframe/image.png';
         const srcUpload = '/img/upload.png';
         return (<div>
             <Image.Group>
 
-                {this.renderImage(src, 'a')}
+                {value.map((e, i) => {
+                    return this.renderImage('/img/upload/' + e.get('name'), '_image' + i);
+                })}
 
                 {context.map((e, i) => {
-                    console.log(e);
                     return this.renderImage(e.data_uri, i, true);
                 })}
 
