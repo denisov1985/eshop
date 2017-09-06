@@ -51,8 +51,18 @@ class UploadImage extends ActionAbstract
         $this->getQueryBuilder()->flush();
 
         sleep(2);
-        return [$data];
+
+        $product = $this->getQueryBuilder()
+            ->getRepository($this->getEntityName())
+            ->find($data['entity']['id']);
+
+        //$serializer =
+
+        return [$product];
     }
 
+    protected function createSerializer() {
+        return new \ApiBundle\Services\Api\Serializer();
+    }
 
 }

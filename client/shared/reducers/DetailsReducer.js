@@ -48,7 +48,13 @@ class DetailsReducer extends Reducer
                 return (e.filename !== action.payload.request.body.image.filename);
             });
 
-            return state.setIn(['context', action.payload.request.body.entity.id, 'upload'], current);
+            const index = state.get('details').map((e) => {
+                return e.get('id');
+            }).indexOf(action.payload.data[0].id);
+
+            return state
+                .setIn(['context', action.payload.request.body.entity.id, 'upload'], current)
+                .setIn(['details', index], fromJS(action.payload.data[0]));
         });
 
         return this.getHandlers();
