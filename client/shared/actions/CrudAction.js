@@ -10,6 +10,10 @@ class CrudAction extends Action
             get: () => this.createReceiveAction('get'),
             select: (record) => this.createReceiveAction('select', record),
             update: (record) => this.createReceiveAction('update', record),
+            uploadImage: (image, entity) => this.getApi().sendPost('upload_image', {
+                image: image,
+                entity: entity
+            }),
         }
     }
 }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import CoreElement from './CoreElement';
-import { Input, Image, Divider, Icon, Button, Dropdown } from 'semantic-ui-react'
+import {Segment, Dimmer, Loader, Input, Image, Divider, Icon, Button, Dropdown} from 'semantic-ui-react'
 import {Map, List, fromJS} from 'immutable';
 
 export default class InputImage extends CoreElement {
@@ -17,37 +17,68 @@ export default class InputImage extends CoreElement {
      * @returns {XML}
      */
     build() {
+        const context = this.props.provider.context.get('upload', new List([]));
         const src = 'https://react.semantic-ui.com/assets/images/wireframe/image.png';
-        const srcUpload = '/img/upload_image.jpg';
+        const srcUpload = '/img/upload.png';
         return (<div>
             <Image.Group>
-                {this.renderImage(src)}
-                {this.renderImage(src)}
-                {this.renderImage(src)}
-                {this.renderImage(src)}
-                {this.renderImage(src)}
-                {this.state.images.map((e) => {
-                    return this.renderImage(e.get('data_uri'));
+
+                {this.renderImage(src, 'a')}
+
+                {context.map((e, i) => {
+                    console.log(e);
+                    return this.renderImage(e.data_uri, i, true);
                 })}
-                <Image onClick={this.toggleFileUpload} style={{borderRadius: 5 + 'px', cursor: 'pointer'}} height="150" width="150" bordered shape='rounded' src={srcUpload} />
+
+                <Image onClick={this.toggleFileUpload} style={{borderRadius: 5 + 'px', cursor: 'pointer'}}
+                       height="150"
+                       width="150" bordered shape='rounded' src={srcUpload}/>
+
             </Image.Group>
 
-            <div style={{display: 'none'}}><input  onChange={this.handleFile} ref="file" type="file" /></div>
+            <div style={{display: 'none'}}><input onChange={this.handleFile} ref="file" type="file"/></div>
         </div>);
     }
 
-    renderImage = (src) => {
-        return (<div style={{borderRadius: 5 + 'px', fontSize: 20 + 'px', backgroundImage: 'url(' + src + ')', backgroundSize: '100% 100%', width: 150 + 'px', height: 150 + 'px'}} className="ui rounded bordered image">
-            <Dropdown style={{fontSize: 12 + 'px', marginLeft: 112 + 'px', marginTop: 114 + 'px'}} icon='content' floating button className='icon'>
+    renderImage = (src, i, isLoading) => {
+        if (typeof isLoading === 'undefined') {
+            isLoading = false;
+        }
+        return (<div key={i} style={{
+            borderRadius: 5 + 'px',
+            fontSize: 20 + 'px',
+            backgroundImage: 'url(' + src + ')',
+            backgroundSize: '100% 100%',
+            width: 150 + 'px',
+            height: 150 + 'px'
+        }} className="ui rounded bordered image">
+            <Dropdown style={{fontSize: 12 + 'px', marginLeft: 112 + 'px', marginTop: 114 + 'px'}} icon='content'
+                      floating button className='icon'>
                 <Dropdown.Menu>
-                    <Dropdown.Header icon='content' content='Select action...' />
-                    <Dropdown.Divider />
-                    <Dropdown.Item icon='eye' text='View image' />
-                    <Dropdown.Item icon='cloud upload' text='Upload' />
-                    <Dropdown.Item icon='trash' text='Delete' />
+                    <Dropdown.Header icon='content' content='Select action...'/>
+                    <Dropdown.Divider/>
+                    <Dropdown.Item icon='eye' text='View image'/>
+                    <Dropdown.Item icon='cloud upload' text='Upload'/>
+                    <Dropdown.Item icon='trash' text='Delete'/>
                 </Dropdown.Menu>
-            </Dropdown>
-        </div>);
+            </Dropdown>{this.renderLoading(isLoading)}</div>);
+    }
+
+    renderLoading(visible) {
+        if (visible) {
+            return (<div style={{
+                position: 'absolute',
+                width: 150 + 'px',
+                height: 150 + 'px',
+                top: 0 + 'px',
+                opacity: '0.8',
+                backgroundColor: 'black'
+            }}><div style={{display: 'block'}} className="ui loader"/>
+
+            </div>)
+        }   else   {
+            return null;
+        }
     }
 
     toggleFileUpload = () => {
@@ -66,6 +97,12 @@ export default class InputImage extends CoreElement {
                 id: this.props.form.props.provider.getIn(['dataset', 'id'])
             });*/
 
+            this.upload({
+                data_uri: upload.target.result,
+                filename: file.name,
+                filetype: file.type,
+            });
+
             this.setState({
                 images: this.state.images.push(fromJS({
                     data_uri: upload.target.result,
@@ -73,12 +110,22 @@ export default class InputImage extends CoreElement {
                     filetype: file.type,
                 }))
             }, () => {
-                console.log(this)
+                //console.log(this)
             });
         };
 
         reader.readAsDataURL(file);
     }
 
+    upload = (image) => {
+        this.props.provider.actions.uploadImage(
+            image,
+            this.props.provider.data.toJS()
+        );
+    }
 
+    componentWillReceiveProps(nextProps) {
+        console.log('nextProps');
+        console.log(nextProps);
+    }
 }

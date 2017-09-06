@@ -172,8 +172,6 @@ export default class Textarea extends CoreElement {
     };
 
     renderServerSide = () => {
-        console.log('VALUE');
-        console.log(this.getValue(this.props, ''));
         return (<div onClick={() => {
             this.setState({loaded: true}, () => {
                 console.log('LOADED');

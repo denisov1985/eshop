@@ -122,8 +122,6 @@ class Container extends Component {
         const details = this.getById(id, this.props[type].get('details', fromJS({})));
         if (details.size === 0) {
             const selected = this.getById(id, this.props[type].get('dataset', fromJS([])))
-            console.log('SELECTED');
-            console.log(selected);
             this.props.actions[type].select(selected);
         }
     }

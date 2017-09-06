@@ -19,7 +19,6 @@ export default class CoreElement extends CoreComponent {
         if (typeof props === 'undefined') {
             props = this.props;
         }
-        console.log(props.provider);
         return props.provider.data.get(this.props.field, defaultValue);
     };
 
