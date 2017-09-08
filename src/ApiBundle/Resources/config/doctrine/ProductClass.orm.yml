@@ -1,0 +1,18 @@
+ApiBundle\Entity\ProductClass:
+    type: entity
+    table: null
+    repositoryClass: ApiBundle\Repository\ProductClassRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }
+    manyToMany:
+        products:
+            targetEntity: Product

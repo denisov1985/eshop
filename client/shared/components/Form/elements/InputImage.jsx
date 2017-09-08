@@ -17,7 +17,7 @@ export default class InputImage extends CoreElement {
      * @returns {XML}
      */
     build() {
-        const value = this.getValue();
+        const value = this.getValue(this.props, []);
         console.log('VALUE');
         console.log(value);
 

@@ -1,0 +1,15 @@
+ApiBundle\Entity\AttributeValue:
+    type: entity
+    table: null
+    repositoryClass: ApiBundle\Repository\AttributeValueRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        value:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }

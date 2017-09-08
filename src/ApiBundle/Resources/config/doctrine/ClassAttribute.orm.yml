@@ -1,0 +1,18 @@
+ApiBundle\Entity\ClassAttribute:
+    type: entity
+    table: null
+    repositoryClass: ApiBundle\Repository\ClassAttributeRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        dataType:
+            type: integer
+            column: data_type
+    lifecycleCallbacks: {  }

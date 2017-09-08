@@ -32,3 +32,7 @@ ApiBundle\Entity\Product:
     manyToMany:
         categories:
             targetEntity: Category
+
+    manyToMany:
+        productClass:
+            targetEntity: ProductClass
